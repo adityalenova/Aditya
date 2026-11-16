@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" role="img" aria-label="Turing Hut VNRVJIET emblem">
+  <circle cx="60" cy="60" r="58" fill="#0A1410" />
+  <circle cx="60" cy="60" r="41" fill="#0E6245" />
+  <path d="M60 19A41 41 0 0 1 101 60C101 82.64 82.64 101 60 101C47.5 101 36.3 95.4 28.8 86.6L86.6 28.8C79.4 22.7 70.1 19 60 19Z" fill="#0B5038" />
+  <path d="M35 42H62V50H52V78H45V50H35V42Z" fill="#FFFFFF" />
+  <path d="M58 55H71V42H79V78H71V63H58V55Z" fill="#FFFFFF" />
+  <defs>
+    <path id="topArc" d="M 20,60 A 40,40 0 1,1 100,60" />
+    <path id="botArc" d="M 18,62 A 42,42 0 0,0 102,62" />
+  </defs>
+  <text fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="800" letter-spacing="2.2">
+    <textPath href="#topArc" startOffset="50%" text-anchor="middle">TURING HUT</textPath>
+  </text>
+  <text fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" letter-spacing="1.8">
+    <textPath href="#botArc" startOffset="50%" text-anchor="middle">VNR VJIET</textPath>
+  </text>
+</svg>

@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-hand: "Caveat", cursive;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    background-color: #ffffff;
+    color: #151413;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+  }
+}
+
+/* Brutalist halftone dot texture for the editorial hero wordmark */
+.halftone-dots {
+  background-image: radial-gradient(circle, currentColor 1.25px, transparent 1.35px);
+  background-size: 5px 5px;
+}
+
+/* Fluted ribbed glass texture — Night mode for Creative Playground */
+.fluted-backdrop {
+  background-color: #09090b;
+  background-image:
+    repeating-linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.08) 0px,
+      rgba(255, 255, 255, 0.015) 6px,
+      rgba(0, 0, 0, 0.92) 12px,
+      rgba(255, 255, 255, 0.05) 18px
+    ),
+    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.14), rgba(0, 0, 0, 0.96) 72%);
+}
+
+/* Fluted ribbed glass texture — Day mode for Creative Playground */
+.fluted-backdrop-day {
+  background-color: #eae7e0;
+  background-image:
+    repeating-linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.65) 0px,
+      rgba(255, 255, 255, 0.2) 6px,
+      rgba(205, 200, 190, 0.45) 12px,
+      rgba(255, 255, 255, 0.5) 18px
+    ),
+    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.85), rgba(226, 222, 214, 0.95) 75%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
