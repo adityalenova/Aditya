@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, ArrowUpRight, CheckCircle2, GraduationCap, HeartPulse, Music, ShieldAlert, Zap } from 'lucide-react';
-import { AI_BUILD_PROJECTS, AIBuildProject, CaseStudyProject, EXTRA_CASE_STUDIES } from '../data/portfolioData';
+import { ArrowRight, ArrowUpRight, CheckCircle2, GraduationCap, HeartPulse, ShieldAlert, Zap } from 'lucide-react';
+import { AI_BUILD_PROJECTS, AIBuildProject, CaseStudyProject, EXTRA_CASE_STUDIES, SELECTED_WORK } from '../data/portfolioData';
 import { ContributionMatrix } from './ContributionMatrix';
-import { RemixMusicPreview, StaticPreview } from './InteractiveProjectPreviews';
+import { StaticPreview } from './InteractiveProjectPreviews';
 import { GitHubMark } from './TechStackIcons';
 import { Tilt3D } from './Tilt3D';
 
@@ -11,14 +11,43 @@ interface BuildingWithAISectionProps {
   onSelectCaseStudy: (project: CaseStudyProject) => void;
 }
 
-function AppBadgeIcon({ type, bg }: { type: AIBuildProject['iconType']; bg: string }) {
+function AppBadgeIcon({
+  logoUrl,
+  logoBg,
+  type,
+  bg,
+  title,
+}: {
+  logoUrl?: string;
+  logoBg?: string;
+  type: AIBuildProject['iconType'];
+  bg: string;
+  title: string;
+}) {
+  const [logoError, setLogoError] = useState(false);
   const iconClass = 'w-5 h-5 text-white';
+
+  if (logoUrl && !logoError) {
+    return (
+      <div
+        className={`w-12 h-12 rounded-[14px] ${logoBg || 'bg-[#111216]'} border border-black/10 p-1.5 flex items-center justify-center shadow-[0_8px_20px_rgba(20,20,19,0.14)] shrink-0 overflow-hidden`}
+      >
+        <img
+          src={logoUrl}
+          alt={`${title} official logo`}
+          referrerPolicy="no-referrer"
+          onError={() => setLogoError(true)}
+          className="w-full h-full object-contain rounded-[8px]"
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={`w-12 h-12 rounded-[14px] ${bg} flex items-center justify-center shadow-[0_6px_16px_rgba(20,20,19,0.12)] shrink-0`}>
       {type === 'health' && <HeartPulse className={iconClass} aria-hidden="true" />}
       {type === 'shield' && <ShieldAlert className={iconClass} aria-hidden="true" />}
       {type === 'bolt' && <Zap className={iconClass} aria-hidden="true" />}
-      {type === 'music' && <Music className={iconClass} aria-hidden="true" />}
       {type === 'learn' && <GraduationCap className={iconClass} aria-hidden="true" />}
     </div>
   );
@@ -27,10 +56,6 @@ function AppBadgeIcon({ type, bg }: { type: AIBuildProject['iconType']; bg: stri
 export function BuildingWithAISection({ onSelectCaseStudy }: BuildingWithAISectionProps) {
   const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
   const [interactiveStatic, setInteractiveStatic] = useState(false);
-  const [interactiveRemix, setInteractiveRemix] = useState(false);
-
-  // Display clean alternating architectural spotlight for Static EV, BeyondHuman & DaVinci (with Spectre & Remix linked to full pages)
-  const showcaseItems = AI_BUILD_PROJECTS.filter((p) => p.id !== 'spectre');
 
   return (
     <section id="ai-builds" className="py-16 sm:py-24 border-t border-[#EFECE6] bg-white scroll-mt-20">
@@ -48,8 +73,12 @@ export function BuildingWithAISection({ onSelectCaseStudy }: BuildingWithAISecti
         </div>
 
         <div className="space-y-16 sm:space-y-24">
-          {showcaseItems.map((item, idx) => {
-            const linkedCaseStudy = item.caseStudyId ? EXTRA_CASE_STUDIES[item.caseStudyId] : undefined;
+          {AI_BUILD_PROJECTS.map((item, idx) => {
+            const linkedCaseStudy = item.caseStudyId
+              ? SELECTED_WORK.find((p) => p.id === item.caseStudyId) || EXTRA_CASE_STUDIES[item.caseStudyId]
+              : undefined;
+
+            const showInteractive = item.id === 'static' && interactiveStatic;
 
             return (
               <motion.article
@@ -64,24 +93,28 @@ export function BuildingWithAISection({ onSelectCaseStudy }: BuildingWithAISecti
                   <Tilt3D
                     maxTilt={4.5}
                     scaleOnHover={1.012}
-                    glare={!(item.id === 'static' && interactiveStatic) && !(item.id === 'remix' && interactiveRemix)}
+                    glare={!showInteractive}
                   >
                     <div className="rounded-[22px] overflow-hidden bg-[#0B0D12] shadow-[0_24px_54px_rgba(15,23,42,0.13)] border border-[#E7E5E0]">
                       {item.id === 'static' && interactiveStatic ? (
                         <StaticPreview />
-                      ) : item.id === 'remix' && interactiveRemix ? (
-                        <RemixMusicPreview />
                       ) : !failedImages[item.id] && item.image ? (
                         <img
                           src={item.image}
                           alt={item.imageAlt || item.title}
                           referrerPolicy="no-referrer"
                           onError={() => setFailedImages((prev) => ({ ...prev, [item.id]: true }))}
-                          className="w-full aspect-[4/3] object-cover object-top transition-transform duration-500 hover:scale-[1.02]"
+                          className="w-full aspect-[19/10] object-cover object-top transition-transform duration-500 hover:scale-[1.02]"
                         />
                       ) : (
-                        <div className="w-full aspect-[4/3] flex flex-col items-center justify-center text-white p-8">
-                          <AppBadgeIcon type={item.iconType} bg={item.iconBg} />
+                        <div className="w-full aspect-[19/10] flex flex-col items-center justify-center text-white p-8">
+                          <AppBadgeIcon
+                            logoUrl={item.logoUrl}
+                            logoBg={item.logoBg}
+                            type={item.iconType}
+                            bg={item.iconBg}
+                            title={item.title}
+                          />
                           <span className="font-display text-lg font-semibold mt-4">{item.title}</span>
                         </div>
                       )}
@@ -91,7 +124,13 @@ export function BuildingWithAISection({ onSelectCaseStudy }: BuildingWithAISecti
 
                 <div className={`lg:col-span-6 space-y-5 ${idx % 2 === 1 ? 'lg:order-1' : ''}`}>
                   <div className="flex items-center gap-3.5">
-                    <AppBadgeIcon type={item.iconType} bg={item.iconBg} />
+                    <AppBadgeIcon
+                      logoUrl={item.logoUrl}
+                      logoBg={item.logoBg}
+                      type={item.iconType}
+                      bg={item.iconBg}
+                      title={item.title}
+                    />
                     <div className="text-xs font-medium text-[#736E68]">
                       <span>{item.eventLabel}</span>
                       <span className="mx-1.5" aria-hidden="true">·</span>
@@ -155,16 +194,6 @@ export function BuildingWithAISection({ onSelectCaseStudy }: BuildingWithAISecti
                         className="text-sm font-medium text-[#16A34A] hover:underline underline-offset-4 cursor-pointer whitespace-nowrap shrink-0"
                       >
                         {interactiveStatic ? 'Show official shot' : 'Try interactive planner'}
-                      </button>
-                    )}
-
-                    {item.id === 'remix' && (
-                      <button
-                        type="button"
-                        onClick={() => setInteractiveRemix((prev) => !prev)}
-                        className="text-sm font-medium text-[#E11D48] hover:underline underline-offset-4 cursor-pointer whitespace-nowrap shrink-0"
-                      >
-                        {interactiveRemix ? 'Show live site shot' : 'Try interactive audio deck'}
                       </button>
                     )}
                   </div>

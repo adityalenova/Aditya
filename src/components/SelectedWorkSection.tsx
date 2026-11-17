@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Layers, Lock } from 'lucide-react';
 import { CaseStudyProject, SELECTED_WORK } from '../data/portfolioData';
@@ -8,21 +8,13 @@ interface SelectedWorkSectionProps {
   onSelectCaseStudy: (project: CaseStudyProject) => void;
 }
 
-const FILTERS: ('All' | CaseStudyProject['category'])[] = [
-  'All',
-  'Developer Tools',
-  'AI Systems',
-  'Brand & Studio',
-  'Civic & Health',
-];
-
 const CARD_THEMES: Record<string, { bg: string; badge: string }> = {
-  cyrus: { bg: 'bg-[#1D4ED8]', badge: 'bg-[#1E40AF]' },
-  genesis: { bg: 'bg-[#7A1C24]', badge: 'bg-[#5F131A]' },
-  'remix-selected': { bg: 'bg-[#9F1239]', badge: 'bg-[#7E0D2C]' },
   'raakha-selected': { bg: 'bg-[#4A2C22]', badge: 'bg-[#382018]' },
   'nirogi-selected': { bg: 'bg-[#065F46]', badge: 'bg-[#044A36]' },
+  'static-selected': { bg: 'bg-[#166534]', badge: 'bg-[#14532D]' },
+  'beyondhuman-selected': { bg: 'bg-[#1D4ED8]', badge: 'bg-[#1E40AF]' },
   'spectre-selected': { bg: 'bg-[#18181B]', badge: 'bg-[#101013]' },
+  genesis: { bg: 'bg-[#7A1C24]', badge: 'bg-[#5F131A]' },
 };
 
 function getDisplayDomain(url: string) {
@@ -36,6 +28,11 @@ function getDisplayDomain(url: string) {
 export function SelectedWorkSection({ onSelectCaseStudy }: SelectedWorkSectionProps) {
   const [activeFilter, setActiveFilter] = useState<'All' | CaseStudyProject['category']>('All');
   const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
+
+  const filters = useMemo(() => {
+    const categories = Array.from(new Set(SELECTED_WORK.map((p) => p.category)));
+    return ['All', ...categories] as ('All' | CaseStudyProject['category'])[];
+  }, []);
 
   const visibleProjects =
     activeFilter === 'All' ? SELECTED_WORK : SELECTED_WORK.filter((p) => p.category === activeFilter);
@@ -65,7 +62,7 @@ export function SelectedWorkSection({ onSelectCaseStudy }: SelectedWorkSectionPr
               role="tablist"
               aria-label="Filter selected work"
             >
-              {FILTERS.map((filter) => {
+              {filters.map((filter) => {
                 const active = activeFilter === filter;
                 return (
                   <button
@@ -86,11 +83,13 @@ export function SelectedWorkSection({ onSelectCaseStudy }: SelectedWorkSectionPr
           </div>
         </div>
 
-        {/* 2-Column Saturated Website Template Cards with Animated Opening Browsers */}
+        {/* 2-Column Saturated Website Template Cards Preserving Exact Hero Screenshot Proportions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-7 sm:gap-8">
           {visibleProjects.map((project, index) => {
             const theme = CARD_THEMES[project.id] || { bg: 'bg-[#7A1C24]', badge: 'bg-[#5F131A]' };
             const domain = getDisplayDomain(project.liveUrl);
+            const isOddLastCard =
+              visibleProjects.length % 2 === 1 && index === visibleProjects.length - 1;
 
             return (
               <motion.article
@@ -99,7 +98,9 @@ export function SelectedWorkSection({ onSelectCaseStudy }: SelectedWorkSectionPr
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.5, delay: (index % 2) * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                className="group relative"
+                className={`group relative ${
+                  isOddLastCard ? 'md:col-span-2 md:w-[calc(50%-1rem)] md:mx-auto w-full' : ''
+                }`}
               >
                 <Tilt3D maxTilt={4} scaleOnHover={1.012} glare={false}>
                   <div
@@ -111,7 +112,7 @@ export function SelectedWorkSection({ onSelectCaseStudy }: SelectedWorkSectionPr
                         <h3 className="font-display text-lg sm:text-[21px] font-bold tracking-tight text-white">
                           {project.title}
                         </h3>
-                        <p className="text-xs text-white/75 line-clamp-1 mt-0.5">
+                        <p className="text-xs text-white/75 line-clamp-1 mt-0.5 tabular-nums">
                           {project.metrics[0]?.value} · {project.metrics[0]?.label}
                         </p>
                       </div>
@@ -120,7 +121,7 @@ export function SelectedWorkSection({ onSelectCaseStudy }: SelectedWorkSectionPr
                       </span>
                     </div>
 
-                    {/* Animated Opening Browser Template Frame */}
+                    {/* Animated Opening Browser Template Frame (19:10 matching full-width hero screenshots) */}
                     <motion.div
                       initial={{ y: 26, opacity: 0.35, scaleY: 0.88 }}
                       whileInView={{ y: 0, opacity: 1, scaleY: 1 }}
@@ -165,15 +166,15 @@ export function SelectedWorkSection({ onSelectCaseStudy }: SelectedWorkSectionPr
                         </span>
                       </div>
 
-                      {/* Webpage Viewport with Smooth Glide & Reveal */}
-                      <div className="relative aspect-[16/10.4] w-full overflow-hidden bg-[#121215]">
+                      {/* Full Hero Webpage Viewport */}
+                      <div className="relative aspect-[19/10] w-full overflow-hidden bg-[#0D0D10]">
                         {!failedImages[project.id] && project.image ? (
                           <img
                             src={project.image}
                             alt={project.imageAlt || project.title}
                             referrerPolicy="no-referrer"
                             onError={() => setFailedImages((prev) => ({ ...prev, [project.id]: true }))}
-                            className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.045]"
+                            className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                           />
                         ) : (
                           <div className="w-full h-full flex flex-col items-center justify-center text-white p-6 text-center">
@@ -184,7 +185,7 @@ export function SelectedWorkSection({ onSelectCaseStudy }: SelectedWorkSectionPr
 
                         <div
                           aria-hidden="true"
-                          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                         />
                       </div>
                     </motion.div>

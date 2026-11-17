@@ -167,7 +167,6 @@ export function TechStackSection() {
 
         {/* Connected Vertical Tier Architecture Stack */}
         <div className="relative">
-          {/* Continuous Vertical Connecting Spine */}
           <div
             aria-hidden="true"
             className="hidden sm:block absolute left-1/2 -translate-x-1/2 top-8 bottom-8 w-px bg-gradient-to-b from-[#7A1C24]/30 via-[#DED8CE] to-[#7A1C24]/25"
@@ -189,7 +188,6 @@ export function TechStackSection() {
                   <div className="grid grid-cols-1 lg:grid-cols-12">
                     {/* Left Identity Rail */}
                     <div className="lg:col-span-4 relative p-6 sm:p-7 bg-gradient-to-br from-[#F7F1EB] via-[#FAF7F3] to-[#FFFFFF] border-b lg:border-b-0 lg:border-r border-[#EAE4DA] flex flex-col justify-center min-h-[152px]">
-                      {/* Top-right item count badge */}
                       <span
                         className="absolute top-4 right-4 w-7 h-7 rounded-full bg-white border border-[#DFD8CC] text-[11px] font-mono font-semibold text-[#7A1C24] flex items-center justify-center shadow-xs tabular-nums"
                         title={`${totalCount} technologies in ${tier.title}`}

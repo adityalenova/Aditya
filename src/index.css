@@ -54,6 +54,57 @@
     radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.85), rgba(226, 222, 214, 0.95) 75%);
 }
 
+/* Navy blueprint micro-grid texture inspired by modern creator showcases */
+.playground-grid-night {
+  background-color: #061547;
+  background-image:
+    radial-gradient(circle at 50% 42%, rgba(28, 72, 184, 0.42) 0%, rgba(6, 21, 71, 0.94) 68%, #040e34 100%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 100% 100%, 22px 22px, 22px 22px;
+}
+
+.playground-grid-day {
+  background-color: #f7f4ed;
+  background-image:
+    radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.78) 0%, rgba(244, 240, 231, 0.96) 72%),
+    linear-gradient(to right, rgba(21, 20, 19, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(21, 20, 19, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 22px 22px, 22px 22px;
+}
+
+@keyframes marquee-scroll-left {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marquee-scroll-right {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-marquee-left {
+  animation: marquee-scroll-left var(--marquee-duration, 36s) linear infinite;
+}
+
+.animate-marquee-right {
+  animation: marquee-scroll-right var(--marquee-duration, 40s) linear infinite;
+}
+
+.marquee-paused,
+.marquee-row:hover .animate-marquee-left,
+.marquee-row:hover .animate-marquee-right {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { ArrowUpRight, Award, Briefcase, ExternalLink, Eye, ShieldCheck, Trophy, X } from 'lucide-react';
+import { ArrowUpRight, Award, Briefcase, ChevronDown, ExternalLink, Eye, ShieldCheck, Trophy, X } from 'lucide-react';
 import {
   CERTIFICATES,
   CertificateItem,
@@ -116,21 +116,29 @@ export function ExperienceCertificatesSection() {
                         {exp.organization} · {exp.location}
                       </div>
                     </div>
-                    <div className="text-xs font-mono text-[#736E68] shrink-0 tabular-nums">
-                      {exp.period} · {exp.type}
+                    <div className="flex items-center gap-2 text-xs font-mono text-[#736E68] shrink-0 tabular-nums">
+                      <span>{exp.period} · {exp.type}</span>
+                      <ChevronDown
+                        className={`w-4 h-4 text-[#7A1C24] transition-transform duration-200 ${
+                          isOpen ? 'rotate-180' : ''
+                        }`}
+                        aria-hidden="true"
+                      />
                     </div>
                   </button>
 
                   <p className="text-[15px] leading-relaxed text-[#57534E]">{exp.summary}</p>
 
-                  <ul className="space-y-1.5 pt-1">
-                    {exp.highlights.map((hl) => (
-                      <li key={hl} className="text-sm text-[#3F3C38] flex items-start gap-2">
-                        <span className="text-[#7A1C24] font-bold mt-0.5">·</span>
-                        <span>{hl}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {isOpen && (
+                    <ul className="space-y-1.5 pt-1">
+                      {exp.highlights.map((hl) => (
+                        <li key={hl} className="text-sm text-[#3F3C38] flex items-start gap-2">
+                          <span className="text-[#7A1C24] font-bold mt-0.5">·</span>
+                          <span>{hl}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               );
             })}
@@ -150,7 +158,6 @@ export function ExperienceCertificatesSection() {
               </h2>
             </div>
 
-            {/* Filter Tabs */}
             <div
               className="inline-flex flex-wrap items-center gap-1 p-1 rounded-full bg-white border border-[#E7E4DC]"
               role="tablist"
@@ -247,7 +254,6 @@ export function ExperienceCertificatesSection() {
             <div className="space-y-5">
               {visibleCerts.map((cert) => (
                 <article key={cert.id} className="relative pl-10 sm:pl-12 group">
-                  {/* Official Organization Crest Medallion on Timeline Axis */}
                   <div className="absolute left-0 top-5 ring-4 ring-[#FAF9F7] rounded-full transition-transform duration-200 group-hover:scale-110">
                     <OrganizationSeal cert={cert} size="md" />
                   </div>

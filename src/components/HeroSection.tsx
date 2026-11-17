@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { ArrowUpRight, Award, CircuitBoard, ExternalLink, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Award, CircuitBoard, Sparkles } from 'lucide-react';
 import { HERO_AVATAR_URL, HERO_PROOF_STATS, PROFILE_LINKS } from '../data/portfolioData';
 import { TechStackDock } from './TechStackIcons';
 import { Tilt3D } from './Tilt3D';
@@ -21,11 +21,11 @@ export function HeroSection({ onJumpToAIBuilds, onJumpToExperience }: HeroSectio
   };
 
   return (
-    <section id="top" className="relative pt-10 sm:pt-16 pb-14 sm:pb-20 bg-white text-[#151413] overflow-x-clip">
+    <section id="top" className="relative pt-8 sm:pt-14 pb-14 sm:pb-20 bg-white text-[#151413] overflow-x-clip">
       <div className="max-w-[1160px] mx-auto px-5 sm:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-10 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
           {/* Left Animated Editorial Intro + Builder Stack */}
-          <div className="lg:col-span-7 space-y-6">
+          <div className="lg:col-span-6 space-y-6">
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -33,19 +33,18 @@ export function HeroSection({ onJumpToAIBuilds, onJumpToExperience }: HeroSectio
             >
               <motion.button
                 type="button"
-                onClick={onJumpToExperience}
+                onClick={onJumpToAIBuilds}
                 whileHover={shouldReduceMotion ? undefined : { y: -2, scale: 1.015 }}
                 whileTap={{ scale: 0.98 }}
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FAF9F7] border border-[#EAE7E1] hover:border-[#7A1C24] shadow-[0_2px_10px_rgba(20,20,19,0.05)] text-xs sm:text-[13.5px] text-[#57534E] transition-colors cursor-pointer whitespace-nowrap shrink-0"
               >
-                <span>AI Builder &amp; ECE @</span>
-                <strong className="font-bold text-[#151413] tracking-tight">VNRVJIET</strong>
-                <ExternalLink className="w-3.5 h-3.5 text-[#7A1C24]" aria-hidden="true" />
+                <Sparkles className="w-3.5 h-3.5 text-[#7A1C24]" aria-hidden="true" />
+                <strong className="font-bold text-[#151413] tracking-tight">Building AI</strong>
               </motion.button>
             </motion.div>
 
             {/* Staggered Primary Headline with Animated Burgundy Underline */}
-            <h1 className="font-display text-[2.65rem] sm:text-[3.55rem] lg:text-[4.25rem] font-bold tracking-[-0.04em] leading-[1.06] text-[#151413] [text-wrap:balance]">
+            <h1 className="font-display text-[2.65rem] sm:text-[3.45rem] lg:text-[3.9rem] xl:text-[4.25rem] font-bold tracking-[-0.04em] leading-[1.06] text-[#151413] [text-wrap:balance]">
               <motion.span
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -134,23 +133,22 @@ export function HeroSection({ onJumpToAIBuilds, onJumpToExperience }: HeroSectio
             </motion.div>
           </div>
 
-          {/* Right Clean Zero-Background Character Cutout (Unboxed Pure Studio Cutout) */}
+          {/* Right Large Animated Background-Free Cutout with Cat on Shoulder */}
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.97 }}
+            initial={{ opacity: 0, y: 20, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.55, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 flex flex-col items-center lg:items-end justify-center relative"
+            transition={{ duration: 0.55, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-6 flex flex-col items-center lg:items-end justify-center relative"
           >
-            <Tilt3D maxTilt={8} scaleOnHover={1.015} glare={false} className="w-full max-w-[420px]">
-              <div className="relative flex flex-col items-center justify-end pt-4 pb-2 select-none">
-                {/* Outer Floating Perimeter Accent Pills (Never Touch Character Cutout) */}
+            <Tilt3D maxTilt={7} scaleOnHover={1.02} glare={false} className="w-full max-w-[540px]">
+              <div className="relative flex flex-col items-center justify-end pt-2 pb-2 select-none">
                 <motion.button
                   type="button"
                   onClick={() => document.getElementById('certificates')?.scrollIntoView({ behavior: 'smooth' })}
                   animate={shouldReduceMotion ? undefined : { y: [0, -5, 0] }}
                   transition={{ duration: 4.4, repeat: Infinity, ease: 'easeInOut' }}
                   whileHover={{ scale: 1.06 }}
-                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#E5DFD6] shadow-[0_10px_24px_rgba(21,20,19,0.08)] text-[11px] font-semibold text-[#151413] absolute top-4 right-2 z-20 cursor-pointer whitespace-nowrap"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#E5DFD6] shadow-[0_10px_24px_rgba(21,20,19,0.08)] text-[11px] font-semibold text-[#151413] absolute bottom-20 right-0 z-20 cursor-pointer whitespace-nowrap"
                 >
                   <Award className="w-3.5 h-3.5 text-[#7A1C24]" aria-hidden="true" />
                   <span>1st · Agentic Arena</span>
@@ -162,38 +160,54 @@ export function HeroSection({ onJumpToAIBuilds, onJumpToExperience }: HeroSectio
                   animate={shouldReduceMotion ? undefined : { y: [0, 5, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.35 }}
                   whileHover={{ scale: 1.06 }}
-                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#7A1C24] text-white shadow-[0_12px_26px_rgba(122,28,36,0.24)] text-[11px] font-semibold absolute bottom-10 left-0 z-20 cursor-pointer whitespace-nowrap"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#7A1C24] text-white shadow-[0_12px_26px_rgba(122,28,36,0.24)] text-[11px] font-semibold absolute bottom-7 left-2 z-20 cursor-pointer whitespace-nowrap"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-[#FDE68A]" aria-hidden="true" />
                   <span>10+ Live Apps</span>
                 </motion.button>
 
-                {/* Pure Transparent Cutout Floating Cleanly on White Canvas (Zero Box Background) */}
+                {/* Looping Animated Character Rig (GIF-like continuous motion, zero background) */}
                 <motion.div
-                  animate={shouldReduceMotion ? undefined : { y: [0, -7, 0] }}
-                  transition={{ duration: 5.2, repeat: Infinity, ease: 'easeInOut' }}
-                  className="relative z-10 w-full flex justify-center"
+                  animate={
+                    shouldReduceMotion
+                      ? undefined
+                      : {
+                          y: [0, -10, 0],
+                          scaleY: [1, 1.016, 1],
+                          scaleX: [1, 0.994, 1],
+                          rotate: [-0.8, 0.8, -0.8],
+                        }
+                  }
+                  transition={{
+                    duration: 4.2,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  }}
+                  whileHover={shouldReduceMotion ? undefined : { scale: 1.03, y: -12 }}
+                  style={{ transformOrigin: 'bottom center' }}
+                  className="relative z-10 w-full flex justify-center cursor-pointer"
                 >
                   {!imgFailed ? (
                     <img
                       src={HERO_AVATAR_URL}
-                      alt={PROFILE_LINKS.name}
+                      alt={`${PROFILE_LINKS.name} with a kitten perched on his shoulder`}
                       referrerPolicy="no-referrer"
                       onError={() => setImgFailed(true)}
-                      className="w-full max-w-[390px] h-auto max-h-[395px] object-contain drop-shadow-[0_18px_28px_rgba(21,20,19,0.12)]"
+                      className="w-full max-w-[460px] sm:max-w-[500px] lg:max-w-[540px] h-auto max-h-[520px] object-contain mix-blend-multiply drop-shadow-[0_16px_26px_rgba(21,20,19,0.1)]"
                     />
                   ) : (
-                    <div className="w-64 h-64 flex flex-col items-center justify-center text-[#151413]">
-                      <CircuitBoard className="w-12 h-12 mb-3 text-[#7A1C24]" aria-hidden="true" />
+                    <div className="w-72 h-72 flex flex-col items-center justify-center text-[#151413]">
+                      <CircuitBoard className="w-14 h-14 mb-3 text-[#7A1C24]" aria-hidden="true" />
                       <span className="font-display text-sm font-semibold">{PROFILE_LINKS.name}</span>
                     </div>
                   )}
                 </motion.div>
 
-                {/* Subtle Floor Shadow Hairline */}
-                <div
+                <motion.div
                   aria-hidden="true"
-                  className="w-48 h-2.5 rounded-full bg-[#151413]/12 blur-md -mt-2"
+                  animate={shouldReduceMotion ? undefined : { scale: [1, 0.88, 1], opacity: [0.85, 0.55, 0.85] }}
+                  transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
+                  className="w-60 h-3 rounded-full bg-[#151413]/12 blur-md -mt-2"
                 />
               </div>
             </Tilt3D>
@@ -205,7 +219,7 @@ export function HeroSection({ onJumpToAIBuilds, onJumpToExperience }: HeroSectio
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, delay: 0.34, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-12 sm:mt-14 pt-8 border-t border-[#ECEAE4] grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
+          className="mt-10 sm:mt-14 pt-8 border-t border-[#ECEAE4] grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
         >
           {HERO_PROOF_STATS.map((stat, idx) => {
             const isExternal = idx === 3;

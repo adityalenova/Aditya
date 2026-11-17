@@ -8,12 +8,12 @@ interface CellMilestone {
 const SHIPPING_NOTES = [
   'Shipped cyrus.ai · 40,017 open issues indexed',
   'Won 1st Place · Agent Arena at CONVERGENCE 2k26',
-  'Launched Nirogi AI · 12 preventive health tools',
+  'Launched Nirogi AI · 9 preventive health tools',
   'Built Spectre for Karnataka State Police Datathon',
   'Engineered Genesis multi-model research loop',
   'Built BeyondHuman adaptive fitness & nutrition OS',
   'Shipped Static EV & Solar Route Navigator',
-  'Published RemixMusicAI browser stem studio',
+  'Shipped Raakha Grace editorial jewellery flagship',
 ];
 
 const MATRIX_COLUMNS: CellMilestone[][] = Array.from({ length: 16 }, (_, col) =>

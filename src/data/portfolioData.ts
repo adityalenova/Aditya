@@ -8,6 +8,7 @@ import footerStudioImg from '../assets/images/footer_aditya_studio_1794831924681
 import avatarSubhranshu from '../assets/images/avatar_subhranshu_dash_1794835060566.jpg';
 import avatarKarthikeya from '../assets/images/avatar_karthikeya_varma_1794835061948.jpg';
 import avatarRohan from '../assets/images/avatar_rohan_kulkarni_1794835062875.jpg';
+import heroCatAvatarImg from '../assets/images/hero_aditya_cat_shoulder_1794878555947.jpg';
 
 export interface TechTool {
   id: string;
@@ -32,6 +33,8 @@ export interface CaseStudyProject {
   summary: string;
   image?: string;
   imageAlt?: string;
+  secondaryImage?: string;
+  secondaryImageCaption?: string;
   accentBackdrop: string;
   liveUrl: string;
   repoUrl: string;
@@ -50,9 +53,11 @@ export interface AIBuildProject {
   highlights: string[];
   image?: string;
   imageAlt?: string;
-  previewType?: 'static' | 'remix';
+  previewType?: 'static';
+  logoUrl?: string;
+  logoBg?: string;
   iconBg: string;
-  iconType: 'health' | 'shield' | 'bolt' | 'music' | 'learn';
+  iconType: 'health' | 'shield' | 'bolt' | 'learn';
   liveUrl: string;
   repoUrl: string;
   eventLabel: string;
@@ -92,6 +97,7 @@ export interface PlaygroundCard {
   id: string;
   title: string;
   subtitle: string;
+  category: 'AI Products' | 'Flagships';
   image: string;
   url: string;
 }
@@ -110,7 +116,7 @@ export interface RecommendationItem {
 
 export const HERO_CHARACTER_URL = heroCharacterImg;
 export const HERO_FULLBODY_URL = heroFullBodyImg;
-export const HERO_AVATAR_URL = '/assets/aistudio/Screenshot_2026-11-16_at_18.00.16_83569ebb.png';
+export const HERO_AVATAR_URL = heroCatAvatarImg;
 export const FOOTER_MEADOW_URL = footerStudioImg;
 
 export const OUT_OF_FRAME_ITEMS = [
@@ -146,14 +152,17 @@ export const OUT_OF_FRAME_ITEMS = [
 
 export const PROFILE_LINKS = {
   name: 'Aditya Duggirala',
-  email: 'aditya.duggirala@gmail.com',
+  headline: 'DESIGNER & DEVELOPER | UI/UX | BUILDING SOLUTIONS THAT SCALE',
+  email: 'adityaduggiralaone.in@gmail.com',
+  portfolio: 'https://adityaduggiralame.lovable.app',
   githubPrimary: 'https://github.com/adityalenova',
   githubSecondary: 'https://github.com/adityaduggiralaonein-dot',
   linkedin: 'https://www.linkedin.com/in/iadityaoffl/',
   twitter: 'https://x.com/iaditya_offical',
   location: 'Hyderabad, India',
-  university: 'VNR Vignana Jyothi Institute of Engineering and Technology (VNRVJIET)',
-  degree: 'B.Tech in Electronics & Communication Engineering (ECE)',
+  university: 'VNR Vignana Jyothi Institute of Engineering & Technology (VNRVJIET)',
+  degree: 'B.E., Electrical, Electronics & Communications Engineering',
+  resumePdfUrl: '/assets/aistudio/Aditya_Duggirala_Professional_Resume-4_86511f4c.pdf',
 };
 
 export const TECH_STACK: TechTool[] = [
@@ -199,22 +208,29 @@ export const FOLDER_CARDS = [
     id: 'folder-genesis',
     title: 'Genesis',
     subtitle: 'Autonomous Research AI',
-    image: '/assets/collected/live-genesis.png',
+    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.49.40_590a5e89.png',
     caseStudyId: 'genesis',
   },
   {
     id: 'folder-nirogi',
     title: 'Nirogi AI',
-    subtitle: '12 Preventive Health Tools',
+    subtitle: '9 Preventive AI Tools',
     image: '/assets/collected/live-nirogi.png',
-    caseStudyId: 'nirogi-case',
+    caseStudyId: 'nirogi-selected',
   },
   {
     id: 'folder-spectre',
     title: 'Spectre',
     subtitle: 'Crime Intelligence',
-    image: '/assets/collected/live-spectre.png',
-    caseStudyId: 'spectre-case',
+    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.46.12_976a74ad.png',
+    caseStudyId: 'spectre-selected',
+  },
+  {
+    id: 'folder-raakha',
+    title: 'Raakha Grace',
+    subtitle: 'Handcrafted Jewellery D2C',
+    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.48.23_8c52280f.png',
+    caseStudyId: 'raakha-selected',
   },
 ];
 
@@ -230,104 +246,6 @@ export const FOLDER_CAPABILITIES = [
 
 export const SELECTED_WORK: CaseStudyProject[] = [
   {
-    id: 'cyrus',
-    slug: 'cyrus-ai',
-    title: 'cyrus.ai',
-    shortTitle: 'cyrus.ai',
-    category: 'Developer Tools',
-    year: '2026',
-    headline: 'Indexing 40,017 open issues and 8,754 mentored projects in cyrus.ai',
-    summary:
-      'Built an open-source contribution platform on Next.js 16 and Neon Postgres with 364 organization profiles, real GitHub PKCE + Google OIDC sign-in, and a 1,528-repo agent-skills catalog. Featured on Product Hunt.',
-    image: '/assets/collected/shot-cyrus-home.png',
-    imageAlt: 'Official live screenshot of cyrus.ai open-source contribution discovery platform',
-    accentBackdrop: 'from-[#1D4ED8] to-[#1E3A8A]',
-    liveUrl: 'https://cyrus-agent.vercel.app',
-    repoUrl: 'https://github.com/adityalenova/cyrus',
-    stack: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind v4', 'Neon Postgres', 'GitHub PKCE', 'Google OIDC'],
-    metrics: [
-      { label: 'Real Open Issues', value: '40,017' },
-      { label: 'Mentored Archive', value: '8,754' },
-      { label: 'Organizations', value: '364' },
-      { label: 'Agent-Skill Repos', value: '1,528' },
-    ],
-    problem:
-      'Developers trying to break into open source or apply to mentored programs (GSoC, LFX, Outreachy) waste weeks combing through stale repositories, broken issue filters, and fragmented program archives.',
-    architecture: [
-      'Engineered an automated snapshot and ingestion pipeline tracking 33.8M+ combined repository stars across 364 vetted organizations.',
-      'Designed a fast Neon Postgres schema supporting instant filtering across 40,017 live issues and 8,754 historical mentored project entries.',
-      'Implemented dual authentication via GitHub PKCE and Google OIDC so contributors can bookmark tracks and sync workflows securely.',
-      'Added a curated 1,528-repository agent-skills catalog tailored for modern AI-assisted coding workflows.',
-    ],
-    outcome:
-      'Launched publicly on Product Hunt, earned 38+ GitHub stars out of the gate, and gave first-time contributors a single fast surface to discover real issues worth solving.',
-  },
-  {
-    id: 'genesis',
-    slug: 'genesis-research-loop',
-    title: 'Genesis',
-    shortTitle: 'Genesis',
-    category: 'AI Systems',
-    year: '2026',
-    headline: 'Engineering an always-on multi-model AI research loop in Genesis',
-    summary:
-      'An autonomous research orchestration system that pulls context from prior runs and live literature, routes each step to the right model (Claude, GPT, or Gemini), executes in a sandbox, and requires human sign-off.',
-    image: '/assets/collected/live-genesis.png',
-    imageAlt: 'Official live screenshot of Genesis autonomous multi-model AI research platform',
-    accentBackdrop: 'from-[#1F5C5B] to-[#123A3A]',
-    liveUrl: 'https://genesis-researchai.vercel.app/',
-    repoUrl: 'https://github.com/adityalenova/genesis',
-    stack: ['TypeScript', 'React', 'Claude API', 'Google Gemini', 'OpenAI', 'Sandboxed Execution'],
-    metrics: [
-      { label: 'Model Routing', value: '3 Engines' },
-      { label: 'Verification Gate', value: 'Human Sign-Off' },
-      { label: 'Execution Mode', value: 'Sandboxed' },
-      { label: 'Audit Trail', value: 'Full Exchange Log' },
-    ],
-    problem:
-      'Single-model AI prompts hallucinate citations, lose long-horizon context, and mix planning with unverified execution—making autonomous research unreliable for serious engineering.',
-    architecture: [
-      'Built a context memory layer that retrieves findings from prior runs alongside live technical literature before starting any synthesis step.',
-      'Implemented task-based model routing: assigning architectural reasoning, rapid extraction, or verification to whichever frontier model performs best for that step.',
-      'Isolated code and hypothesis checks inside a deterministic sandbox so claims are tested against real outputs rather than text plausibility.',
-      'Enforced an immutable exchange log with an explicit human sign-off gate before any research loop closes out.',
-    ],
-    outcome:
-      'Turned fragmented multi-tab prompting into a reproducible, auditable research workflow anchored around one core engineering rule: verify everything before closing.',
-  },
-  {
-    id: 'remix-selected',
-    slug: 'remix-music-ai',
-    title: 'RemixMusicAI',
-    shortTitle: 'RemixMusicAI',
-    category: 'Brand & Studio',
-    year: '2026',
-    headline: '224 credit-safe royalty-free tracks in an instant browser remix studio',
-    summary:
-      'Aggregates royalty-free tracks across English, Hindi, Telugu, and instrumental genres into a high-contrast dark studio where creators discover charts, stream clean stems, and credit artists cleanly without desktop DAWs.',
-    image: '/assets/collected/live-remix.png',
-    imageAlt: 'Official live screenshot of RemixMusicAI credit-safe music discovery and remix studio',
-    accentBackdrop: 'from-[#9F1239] to-[#4C0519]',
-    liveUrl: 'https://remix-musicai.lovable.app/',
-    repoUrl: 'https://github.com/adityaduggiralaonein-dot/remix-musicai',
-    stack: ['React', 'TypeScript', 'Tailwind CSS', 'Web Audio API', 'Multi-Language Indexing'],
-    metrics: [
-      { label: 'Royalty-Free Catalog', value: '224 Tracks' },
-      { label: 'Languages Indexed', value: '4 Regions' },
-      { label: 'Studio Runtime', value: 'Zero DAW' },
-      { label: 'Source Attribution', value: 'Auto-Credited' },
-    ],
-    problem:
-      'Video editors and independent creators waste hours hunting for copyright-safe background stems across Hindi, Telugu, and English moods without clear artist attribution records.',
-    architecture: [
-      'Engineered an indexed track catalog spanning Pixabay Music, Free Music Archive, Incompetech, Chosic, and creator stem packs with instant mood and genre filters.',
-      'Built low-latency browser deck controls using Web Audio synthesis previews, waveform bars, and playlist persistence.',
-      'Added one-click source attribution badges so creators credit original composers accurately on YouTube, Reels, and launch films.',
-    ],
-    outcome:
-      'Shipped a cohesive music studio combining dark-aurora visual polish with practical copyright clarity for modern content creators.',
-  },
-  {
     id: 'raakha-selected',
     slug: 'raakha-grace',
     title: 'Raakha Grace',
@@ -337,8 +255,8 @@ export const SELECTED_WORK: CaseStudyProject[] = [
     headline: 'Crafting an editorial luxury jewellery storefront for Raakha Grace',
     summary:
       'Designed and engineered a warm heirloom D2C storefront for handcrafted Indian jewellery light on the skin, complete with signature lotus brand identity, collection filtering, interactive concierge FAQ, and pan-India checkout flows.',
-    image: '/assets/collected/live-raakha.png',
-    imageAlt: 'Official live screenshot of Raakha Grace handcrafted jewellery e-commerce website',
+    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.48.23_8c52280f.png',
+    imageAlt: 'Official live hero screenshot of Raakha Grace handcrafted jewellery website',
     accentBackdrop: 'from-[#4A2C22] to-[#271510]',
     liveUrl: 'https://raakhagracecrafted.vercel.app/',
     repoUrl: 'https://github.com/adityalenova',
@@ -366,30 +284,94 @@ export const SELECTED_WORK: CaseStudyProject[] = [
     shortTitle: 'Nirogi AI',
     category: 'Civic & Health',
     year: '2026',
-    headline: 'Unifying 12 preventive healthcare AI tools for every Indian household',
+    headline: 'Nine free preventive-healthcare AI tools built for everyday Indian households',
     summary:
-      'Born from two real family medical scares, Nirogi AI packages MedGuard drug checks, HeartSense screening, SugarSense Indian glycemic food index, and ScanIQ report synthesis—free, zero appointments, and accessible without English fluency.',
+      'Built for the Redrob × Hack2skill hackathon, Nirogi AI delivers nine free preventive-healthcare tools in one clear interface: medicine safety checks, skin scan, meal & sugar analysis, cancer, diabetes & heart-risk screening, scan/report reader, and medicine verification.',
     image: '/assets/collected/live-nirogi.png',
-    imageAlt: 'Official live screenshot of Nirogi AI preventive health operating system',
+    imageAlt: 'Official live hero screenshot of Nirogi AI preventive health operating system',
     accentBackdrop: 'from-[#065F46] to-[#022C22]',
     liveUrl: 'https://nirogi-healthai.lovable.app',
     repoUrl: 'https://github.com/adityalenova/nirogi-healthai',
-    stack: ['React', 'TypeScript', 'Tailwind CSS', 'Google Gemini', 'ElevenLabs Voice', 'Lovable'],
+    stack: ['React', 'TypeScript', 'Tailwind CSS', 'Google Gemini', 'Supabase', 'Lovable'],
     metrics: [
-      { label: 'AI Health Tools', value: '12 Suites' },
+      { label: 'AI Health Tools', value: '9 Suites' },
       { label: 'Access Cost', value: '100% Free' },
-      { label: 'Voice Narration', value: 'Multilingual' },
-      { label: 'Screening Target', value: '< 5 mins' },
+      { label: 'Hackathon', value: 'Redrob × H2S' },
+      { label: 'Screening Flow', value: '< 5 mins' },
     ],
     problem:
-      'Preventive conditions—like long-term painkiller toxicity or silent cardiac defects—often go undetected across Indian households until emergencies occur due to cost, appointment friction, and language barriers.',
+      'Preventive conditions—like painkiller interactions, skin anomalies, glycemic spikes, or silent cardiac risks—often go undetected across households due to diagnostic cost, complex medical reports, and language barriers.',
     architecture: [
-      'Modularized 12 focused diagnostic workflows including MedGuard (drug interactions), HeartSense (silent cardiac screening), SugarSense (Indian glycemic food index), SkinScan, and ScanIQ (X-Ray/MRI/report summarizer).',
-      'Integrated voice-guided SenseCheck narration so non-English or low-literacy users can navigate vision and hearing checks independently.',
-      'Built MedVerify batch lookup cross-referencing CDSCO recall and expiry records.',
+      'Modularized 9 focused AI tools covering medicine safety checks, skin scan, meal & sugar analysis, cancer/diabetes/heart-risk screening, and CDSCO-aware medicine verification.',
+      'Built an intelligent scan and lab-report reader translating medical jargon into calm, plain-language action steps.',
+      'Designed accessible mobile-first cards so family members can run a screening in minutes without clinical literacy.',
     ],
     outcome:
-      'Submitted to India Runs by Redrob AI (Track 2: Everyday AI Innovator) as a practical blueprint for preventive rural-to-metro healthcare.',
+      'Built for Redrob × Hack2skill as an everyday preventive-healthcare companion connecting early risk signals to timely medical guidance.',
+  },
+  {
+    id: 'static-selected',
+    slug: 'static-ev-navigator',
+    title: 'Static',
+    shortTitle: 'Static',
+    category: 'Civic & Health',
+    year: '2026',
+    headline: 'Planning multi-stop Indian EV highway routes with live charger specs & GPS rerouting',
+    summary:
+      'EV, fuel, and solar trip planner for India featuring chargers, fuel stations, and highway food stops along the route, AI range risk scoring, and in-app GPS navigation with voice and live rerouting.',
+    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.47.09_f075f2ed.png',
+    imageAlt: 'Official live hero screenshot of Static EV and solar route planner featuring vehicle telemetry',
+    accentBackdrop: 'from-[#166534] to-[#052E16]',
+    liveUrl: 'https://static-chargepoint.lovable.app',
+    repoUrl: 'https://github.com/adityaduggiralaonein-dot/static-chargepoint',
+    stack: ['React', 'TypeScript', 'Tailwind CSS', 'AI Risk Scoring', 'In-App Voice GPS', 'Solar Sizing'],
+    metrics: [
+      { label: 'Navigation', value: 'Voice GPS' },
+      { label: 'Route Stops', value: 'EV + Fuel + Food' },
+      { label: 'Energy Planner', value: 'EV + Solar' },
+      { label: 'Coverage', value: 'Indian Highways' },
+    ],
+    problem:
+      'Intercity EV drivers across India struggle with unreliable charger compatibility data, unexpected range anxiety on highway stretches, and fragmented discovery of fuel and highway food stops.',
+    architecture: [
+      'Built an interactive multi-stop highway checkpoint planner scoring battery state-of-charge (SoC) risk across every leg.',
+      'Added in-app GPS navigation with voice guidance, live rerouting, and verified highway EV, fuel, and food pitstops.',
+      'Integrated a solar panel and home battery energy sizing calculator tailored for everyday EV charging.',
+    ],
+    outcome:
+      'Shipped a practical clean-mobility SaaS companion uniting live route navigation, charger transparency, and solar autonomy.',
+  },
+  {
+    id: 'beyondhuman-selected',
+    slug: 'beyondhuman-health',
+    title: 'BeyondHuman',
+    shortTitle: 'BeyondHuman',
+    category: 'AI Systems',
+    year: '2026',
+    headline: 'Adaptive hypertrophy splits and Indian meal macro intelligence in BeyondHuman',
+    summary:
+      'A personal fitness and nutrition operating system combining adaptive hypertrophy programming, daily recovery metrics, and conversational meal analysis tuned for Indian home-cooked food.',
+    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.46.41_981fd069.png',
+    imageAlt: 'Official live hero screenshot of BeyondHuman adaptive health and workout AI application',
+    accentBackdrop: 'from-[#1D4ED8] to-[#172554]',
+    liveUrl: 'https://beyondhuman-healthai.lovable.app/',
+    repoUrl: 'https://github.com/adityaduggiralaonein-dot/beyondhuman-healthai',
+    stack: ['React', 'TypeScript', 'Tailwind CSS', 'Adaptive Training Engine', 'Meal Macro AI'],
+    metrics: [
+      { label: 'Training Splits', value: 'Progressive' },
+      { label: 'Nutrition AI', value: 'Indian Meals' },
+      { label: 'Recovery Loop', value: 'Muscle Readiness' },
+      { label: 'Platform', value: 'Web OS' },
+    ],
+    problem:
+      'Mainstream fitness apps default to Western food databases and rigid cookie-cutter workout templates that ignore daily recovery and regional Indian meals.',
+    architecture: [
+      'Engineered progressive-overload workout scheduling that adjusts volume and muscle group focus based on recovery feedback.',
+      'Built conversational macro and calorie estimation tuned for home-cooked Indian dishes and daily staples.',
+      'Designed a calm, zero-clutter responsive dashboard keeping active sets and nutrition targets one tap away.',
+    ],
+    outcome:
+      'Delivered a focused personal health OS uniting intelligent training progression with realistic nutrition tracking.',
   },
   {
     id: 'spectre-selected',
@@ -400,70 +382,107 @@ export const SELECTED_WORK: CaseStudyProject[] = [
     year: '2026',
     headline: 'Turning raw FIR logs into geospatial crime intelligence for KSP Datathon',
     summary:
-      'Built for Karnataka State Police (KSP Datathon 2026), pairing tactical crime sector mapping with Indian police hierarchy command views and real-time alert pipelines.',
-    image: '/assets/collected/live-spectre.png',
-    imageAlt: 'Official live screenshot of Spectre CrimeWatch AI intelligence dashboard',
+      'AI crime-intelligence platform for Karnataka State Police (KSP Datathon 2026): crime trend engine, hotspot detection and maps, 0–100 risk scoring, plain-English AI briefings, real-time alert engine, and printable district reports.',
+    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.46.12_976a74ad.png',
+    imageAlt: 'Official live hero screenshot of Spectre CrimeWatch AI intelligence dashboard',
     accentBackdrop: 'from-[#18181B] to-[#09090B]',
     liveUrl: 'https://spectre-crimeai.lovable.app',
     repoUrl: 'https://github.com/adityaduggiralaonein-dot/spectre-crimeai',
-    stack: ['React', 'TypeScript', 'Google Maps API', 'Resend', 'Gateway Alerts', 'Cloud Auth'],
+    stack: ['React', 'TypeScript', 'Google Maps API', '0–100 Risk Scoring', 'Plain-English Briefings', 'Alert Engine'],
     metrics: [
       { label: 'Hackathon', value: 'KSP Datathon' },
-      { label: 'Mapping', value: 'Geospatial' },
-      { label: 'Role Hierarchy', value: 'Indian Police' },
+      { label: 'Risk Engine', value: '0–100 Score' },
+      { label: 'Output Formats', value: 'District Reports' },
       { label: 'Alert Pipeline', value: 'Real-Time' },
     ],
     problem:
-      'Law enforcement analysts deal with fragmented spreadsheets and delayed incident feeds, making rapid cross-sector pattern recognition difficult during active operations.',
+      'Law enforcement analysts deal with fragmented spreadsheets and delayed incident feeds, making rapid cross-sector pattern recognition and district-level reporting difficult during active operations.',
     architecture: [
-      'Constructed a dark-canvas tactical map overlay highlighting high-density sector clusters and chronological incident timelines.',
-      'Modeled Indian police rank profiles (Commissioner, IG, DSP, Inspector) to scope operational views and dispatch permissions.',
-      'Wired automated email notifications via Resend and real-time alert dispatch triggers.',
+      'Constructed a crime trend engine with hotspot detection maps and automated 0–100 sector risk scoring.',
+      'Generated plain-English AI briefings tailored to officer ranks alongside printable district intelligence reports.',
+      'Wired automated alert dispatches and real-time threshold notifications.',
     ],
     outcome:
-      'Delivered an end-to-end civic intelligence prototype ready for Hack2Skill & KSP Datathon 2026 evaluation.',
+      'Delivered an end-to-end civic intelligence prototype built for Karnataka State Police & KSP Datathon 2026 evaluation.',
+  },
+  {
+    id: 'genesis',
+    slug: 'genesis-research-loop',
+    title: 'Genesis',
+    shortTitle: 'Genesis',
+    category: 'AI Systems',
+    year: '2026',
+    headline: 'Engineering an always-on multi-model AI research loop in Genesis',
+    summary:
+      'An autonomous research orchestration system that pulls context from prior runs and live literature, routes each step to the right model (Claude, GPT, or Gemini), executes in a sandbox, and requires human sign-off.',
+    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.49.40_590a5e89.png',
+    imageAlt: 'Official live hero screenshot of Genesis autonomous multi-model AI research platform',
+    accentBackdrop: 'from-[#1F5C5B] to-[#123A3A]',
+    liveUrl: 'https://genesis-researchai.vercel.app/',
+    repoUrl: 'https://github.com/adityalenova/genesis',
+    stack: ['TypeScript', 'React', 'Claude API', 'Google Gemini', 'OpenAI', 'Sandboxed Execution'],
+    metrics: [
+      { label: 'Model Routing', value: '3 Engines' },
+      { label: 'Verification Gate', value: 'Human Sign-Off' },
+      { label: 'Execution Mode', value: 'Sandboxed' },
+      { label: 'Audit Trail', value: 'Full Exchange Log' },
+    ],
+    problem:
+      'Single-model AI prompts hallucinate citations, lose long-horizon context, and mix planning with unverified execution—making autonomous research unreliable for serious engineering.',
+    architecture: [
+      'Built a context memory layer that retrieves findings from prior runs alongside live technical literature before starting any synthesis step.',
+      'Implemented task-based model routing: assigning architectural reasoning, rapid extraction, or verification to whichever frontier model performs best for that step.',
+      'Isolated code and hypothesis checks inside a deterministic sandbox so claims are tested against real outputs rather than text plausibility.',
+      'Enforced an immutable exchange log with an explicit human sign-off gate before any research loop closes out.',
+    ],
+    outcome:
+      'Turned fragmented multi-tab prompting into a reproducible, auditable research workflow anchored around one core engineering rule: verify everything before closing.',
   },
 ];
 
 export const AI_BUILD_PROJECTS: AIBuildProject[] = [
   {
-    id: 'spectre',
-    title: 'Spectre — CrimeWatch AI',
-    tagline: 'Geospatial crime analytics for Karnataka State Police',
+    id: 'nirogi',
+    title: 'Nirogi AI — Preventive Health OS',
+    tagline: 'Nine free preventive-healthcare AI tools (Redrob × Hack2skill)',
     description:
-      'Built for Hack2Skill & KSP Datathon 2026, Spectre transforms raw FIR logs into a dark tactical intelligence surface with geospatial sector mapping, chronological timelines, and rank-tailored officer command workflows.',
+      'Free preventive-healthcare platform featuring nine focused AI tools: medicine safety checks, skin scan, meal and sugar analysis, cancer, diabetes and heart-risk screening, scan/report reader, and medicine verification.',
     highlights: [
-      'Engineered specifically for Karnataka State Police (KSP Datathon 2026)',
-      'Interactive geospatial sector heatmaps & chronological incident timelines',
-      'Rank-aware officer dashboard with real-time gateway alerting',
+      'Nine AI screening suites from medicine safety checks to report summaries',
+      'Built for non-English & metro-to-village accessibility with zero paywalls',
+      'Developed during the Redrob × Hack2skill Hackathon',
     ],
-    image: '/assets/collected/live-spectre.png',
-    imageAlt: 'Official live screenshot of Spectre CrimeWatch AI intelligence dashboard',
-    iconBg: 'bg-[#1F2937]',
-    iconType: 'shield',
-    liveUrl: 'https://spectre-crimeai.lovable.app',
-    repoUrl: 'https://github.com/adityaduggiralaonein-dot/spectre-crimeai',
-    eventLabel: 'KSP Datathon 2026',
-    caseStudyId: 'spectre-case',
+    image: '/assets/collected/live-nirogi.png',
+    imageAlt: 'Official live screenshot of Nirogi AI preventive health operating system',
+    iconBg: 'bg-[#065F46]',
+    iconType: 'health',
+    liveUrl: 'https://nirogi-healthai.lovable.app',
+    repoUrl: 'https://github.com/adityalenova/nirogi-healthai',
+    eventLabel: 'Redrob × Hack2skill',
+    caseStudyId: 'nirogi-selected',
   },
   {
     id: 'static',
     title: 'Static — EV, Fuel & Solar Navigator',
-    tagline: 'Multi-stop clean mobility & highway planner across India',
+    tagline: 'Multi-stop clean mobility & in-app GPS highway planner across India',
     description:
-      'Helps EV and hybrid drivers plan intercity Indian highway trips with live charger gun specs (120V/240V/DC fast), vehicle garage profiles, AI-scored range risk factors, highway amenities, and solar storage sizing.',
+      'EV, fuel, and solar trip planner for India mapping chargers, fuel stations, and highway food stops along the route with AI risk scoring and in-app GPS navigation with voice and live rerouting.',
     highlights: [
-      'Calculates stop-by-stop range risk based on current battery & charger output',
-      'Maps EV, CNG, fuel stations & verified highway pitstops across India',
+      'AI range risk scoring with charger specs, fuel stations & highway food stops',
+      'In-app GPS navigation featuring voice turn-by-turn & live rerouting',
       'Includes personal EV garage & solar panel energy storage calculator',
     ],
-    image: '/assets/collected/live-static.png',
+    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.47.09_f075f2ed.png',
     imageAlt: 'Official live screenshot of Static EV and solar route planner featuring vehicle telemetry',
+    previewType: 'static',
+    logoUrl: '/assets/collected/logos/app-static.png',
+    logoBg: 'bg-[#0C0E12]',
     iconBg: 'bg-[#16A34A]',
     iconType: 'bolt',
     liveUrl: 'https://static-chargepoint.lovable.app',
     repoUrl: 'https://github.com/adityaduggiralaonein-dot/static-chargepoint',
-    eventLabel: 'Clean Mobility AI',
+    eventLabel: 'Clean Mobility SaaS',
+    caseStudyId: 'static-selected',
   },
   {
     id: 'beyondhuman',
@@ -476,182 +495,197 @@ export const AI_BUILD_PROJECTS: AIBuildProject[] = [
       'AI-assisted calorie & macro estimation tuned for Indian home-cooked meals',
       'Built with React, TypeScript & modern state persistence',
     ],
-    image: '/assets/collected/live-beyondhuman.png',
+    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.46.41_981fd069.png',
     imageAlt: 'Official live screenshot of BeyondHuman adaptive health and workout AI application',
+    logoUrl: '/assets/collected/logos/app-beyondhuman.png',
+    logoBg: 'bg-[#14171F]',
     iconBg: 'bg-[#2563EB]',
     iconType: 'health',
     liveUrl: 'https://beyondhuman-healthai.lovable.app/',
     repoUrl: 'https://github.com/adityaduggiralaonein-dot/beyondhuman-healthai',
     eventLabel: 'Health & Fitness AI',
+    caseStudyId: 'beyondhuman-selected',
   },
   {
-    id: 'remix',
-    title: 'RemixMusicAI — Browser Remix Studio',
-    tagline: 'Non-copyright track discovery & instant stem remixing',
+    id: 'spectre',
+    title: 'Spectre — CrimeWatch AI',
+    tagline: 'AI crime-intelligence platform for Karnataka State Police',
     description:
-      'Aggregates royalty-free tracks across English, Hindi, Telugu, and instrumental genres into a fluid dark-aurora studio where creators build playlists, track artist leaderboards, and preview remixes without a desktop DAW.',
+      'Built for KSP Datathon 2026 (Karnataka State Police), featuring a crime trend engine, hotspot detection and maps, 0–100 risk scoring, plain-English AI briefings, an alert engine, and printable district reports.',
     highlights: [
-      'Multi-language discovery across English, Hindi, Telugu & mood filters',
-      'Zero-DAW browser playback with source attribution & creator leaderboards',
-      'Dynamic visual studio built with React & TypeScript',
+      'Crime trend engine, hotspot maps & 0–100 automated sector risk scoring',
+      'Plain-English AI briefings, alert triggers & printable district reports',
+      'Engineered for Karnataka State Police (KSP Datathon 2026)',
     ],
-    image: '/assets/collected/live-remix.png',
-    imageAlt: 'Official live screenshot of RemixMusicAI credit-safe music discovery and remix studio',
-    previewType: 'remix',
-    iconBg: 'bg-[#E11D48]',
-    iconType: 'music',
-    liveUrl: 'https://remix-musicai.lovable.app/',
-    repoUrl: 'https://github.com/adityaduggiralaonein-dot/remix-musicai',
-    eventLabel: 'Audio & Creator Tech',
+    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.46.12_976a74ad.png',
+    imageAlt: 'Official live screenshot of Spectre CrimeWatch AI intelligence dashboard',
+    logoUrl: '/assets/collected/logos/app-spectre.png',
+    logoBg: 'bg-[#0E110E]',
+    iconBg: 'bg-[#1F2937]',
+    iconType: 'shield',
+    liveUrl: 'https://spectre-crimeai.lovable.app',
+    repoUrl: 'https://github.com/adityaduggiralaonein-dot/spectre-crimeai',
+    eventLabel: 'KSP Datathon 2026',
+    caseStudyId: 'spectre-selected',
   },
   {
-    id: 'davinci',
-    title: 'DaVinci Canvas — Generative Creative Studio',
-    tagline: 'Unified multi-model image & visual synthesis workspace',
+    id: 'genesis-build',
+    title: 'Genesis — Autonomous Research Loop',
+    tagline: 'Multi-model orchestration across Claude, GPT & Gemini',
     description:
-      'Brings Frontier vision and generative image workflows into one creator-first canvas so designers explore styles, iterate compositions, and export clean visual assets fast.',
+      'An always-on research engine that gathers context from prior runs, routes tasks to the strongest model, validates outputs inside a sandbox, and tracks full audit trails before human sign-off.',
     highlights: [
-      'Curated model selector spanning multi-engine prompt synthesis workflows',
-      'High-contrast gallery layout focused cleanly on generated outputs',
-      'Live deployed frontend built with React, TypeScript & Tailwind CSS',
+      'Routes synthesis, code validation & critique across 3 frontier AI families',
+      'Deterministic sandbox execution before any hypothesis closes',
+      'Immutable exchange log built for reproducible technical research',
     ],
-    image: '/assets/collected/live-davinci.png',
-    imageAlt: 'Official live screenshot of DaVinci Canvas generative creative AI studio',
-    iconBg: 'bg-[#6D28D9]',
+    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.49.40_590a5e89.png',
+    imageAlt: 'Official live screenshot of Genesis autonomous multi-model AI research platform',
+    logoUrl: '/assets/collected/logos/app-genesis.png',
+    logoBg: 'bg-[#0F1114]',
+    iconBg: 'bg-[#1F5C5B]',
     iconType: 'learn',
-    liveUrl: 'https://davinci-creativeai.lovable.app/',
-    repoUrl: 'https://github.com/adityaduggiralaonein-dot/davinci-creativeai',
-    eventLabel: 'Generative AI Studio',
+    liveUrl: 'https://genesis-researchai.vercel.app/',
+    repoUrl: 'https://github.com/adityalenova/genesis',
+    eventLabel: 'Autonomous Agents',
+    caseStudyId: 'genesis',
   },
 ];
 
 export const EXTRA_CASE_STUDIES: Record<string, CaseStudyProject> = {
-  'nirogi-case': {
-    id: 'nirogi-case',
-    slug: 'nirogi-ai',
-    title: 'Nirogi AI',
-    shortTitle: 'Nirogi AI',
-    category: 'Civic & Health',
+  cyrus: {
+    id: 'cyrus',
+    slug: 'cyrus-ai',
+    title: 'cyrus.ai',
+    shortTitle: 'cyrus.ai',
+    category: 'Developer Tools',
     year: '2026',
-    headline: 'Designing a 12-tool preventive health OS accessible to every Indian household',
+    headline: 'Indexing 40,017 open issues and 8,754 mentored projects in cyrus.ai',
     summary:
-      'Inspired by two real family medical emergencies that went undetected too long, Nirogi AI brings 12 free AI screening tools into one intuitive interface—no doctor appointment or English proficiency required.',
-    image: '/assets/collected/live-nirogi.png',
-    imageAlt: 'Official live screenshot of Nirogi AI preventive health operating system',
-    accentBackdrop: 'from-[#065F46] to-[#022C22]',
-    liveUrl: 'https://nirogi-healthai.lovable.app',
-    repoUrl: 'https://github.com/adityalenova/nirogi-healthai',
-    stack: ['React', 'TypeScript', 'Tailwind CSS', 'Google Gemini', 'ElevenLabs Voice', 'Lovable'],
+      'Built an open-source contribution platform on Next.js 16 and Neon Postgres with 364 organization profiles, real GitHub PKCE + Google OIDC sign-in, and a 1,528-repo agent-skills catalog. Featured on Product Hunt.',
+    image: '/assets/collected/shot-cyrus-home.png',
+    imageAlt: 'Official live screenshot of cyrus.ai open-source contribution discovery platform',
+    secondaryImage: '/assets/collected/shot-cyrus-issues.png',
+    secondaryImageCaption: 'cyrus.ai Live Issues Explorer indexing 40,017 open issues across 290+ active repositories',
+    accentBackdrop: 'from-[#1D4ED8] to-[#1E3A8A]',
+    liveUrl: 'https://cyrus-agent.vercel.app',
+    repoUrl: 'https://github.com/adityalenova/cyrus',
+    stack: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind v4', 'Neon Postgres', 'GitHub PKCE', 'Google OIDC'],
     metrics: [
-      { label: 'AI Health Tools', value: '12 Suites' },
-      { label: 'Access Cost', value: '100% Free' },
-      { label: 'Voice Narration', value: 'Multilingual' },
-      { label: 'Screening Target', value: '< 5 mins' },
+      { label: 'Real Open Issues', value: '40,017' },
+      { label: 'Mentored Archive', value: '8,754' },
+      { label: 'Organizations', value: '364' },
+      { label: 'Agent-Skill Repos', value: '1,528' },
     ],
     problem:
-      'Preventive conditions—like long-term painkiller toxicity or silent cardiac defects—often go undetected across Indian households until emergencies occur due to cost, appointment friction, and language barriers.',
+      'Developers trying to break into open source or apply to mentored programs (GSoC, LFX, Outreachy) waste weeks combing through stale repositories, broken issue filters, and fragmented program archives.',
     architecture: [
-      'Modularized 12 focused diagnostic workflows including MedGuard (drug interactions), HeartSense (silent cardiac screening), SugarSense (Indian glycemic food index), SkinScan, and ScanIQ (X-Ray/MRI/report summarizer).',
-      'Integrated voice-guided SenseCheck narration so non-English or low-literacy users can navigate vision and hearing checks independently.',
-      'Built MedVerify batch lookup cross-referencing CDSCO recall and expiry records.',
+      'Engineered an automated snapshot and ingestion pipeline tracking 33.8M+ combined repository stars across 364 vetted organizations.',
+      'Designed a fast Neon Postgres schema supporting instant filtering across 40,017 live issues and 8,754 historical mentored project entries.',
+      'Implemented dual authentication via GitHub PKCE and Google OIDC so contributors can bookmark tracks and sync workflows securely.',
+      'Added a curated 1,528-repository agent-skills catalog tailored for modern AI-assisted coding workflows.',
     ],
     outcome:
-      'Submitted to India Runs by Redrob AI (Track 2: Everyday AI Innovator) as a practical blueprint for preventive rural-to-metro healthcare.',
-  },
-  'spectre-case': {
-    id: 'spectre-case',
-    slug: 'spectre-crimeai',
-    title: 'Spectre (CrimeWatch AI)',
-    shortTitle: 'Spectre',
-    category: 'Civic & Health',
-    year: '2026',
-    headline: 'Turning raw incident logs into real-time crime intelligence for KSP Datathon',
-    summary:
-      'Built for Karnataka State Police (KSP Datathon 2026 & Hack2Skill), Spectre pairs dark geospatial crime mapping with officer-rank workflows and automated gateway alerts.',
-    image: '/assets/collected/live-spectre.png',
-    imageAlt: 'Official live screenshot of Spectre CrimeWatch AI',
-    accentBackdrop: 'from-[#18181B] to-[#09090B]',
-    liveUrl: 'https://spectre-crimeai.lovable.app',
-    repoUrl: 'https://github.com/adityaduggiralaonein-dot/spectre-crimeai',
-    stack: ['React', 'TypeScript', 'Google Maps API', 'Resend', 'Gateway Alerts', 'Cloud Auth'],
-    metrics: [
-      { label: 'Hackathon', value: 'KSP Datathon' },
-      { label: 'Mapping', value: 'Geospatial' },
-      { label: 'Role Hierarchy', value: 'Indian Police' },
-      { label: 'Alert Pipeline', value: 'Real-Time' },
-    ],
-    problem:
-      'Law enforcement analysts deal with fragmented spreadsheets and delayed incident feeds, making rapid cross-sector pattern recognition difficult during active operations.',
-    architecture: [
-      'Constructed a dark-canvas tactical map overlay highlighting high-density sector clusters and chronological incident timelines.',
-      'Modeled Indian police rank profiles (Commissioner, IG, DSP, Inspector) to scope operational views and dispatch permissions.',
-      'Wired automated email notifications via Resend and real-time alert dispatch triggers.',
-    ],
-    outcome:
-      'Delivered an end-to-end civic intelligence prototype ready for Hack2Skill & KSP Datathon 2026 evaluation.',
+      'Launched publicly on Product Hunt, earned 38+ GitHub stars out of the gate, and gave first-time contributors a single fast surface to discover real issues worth solving.',
   },
 };
 
 export const PLAYGROUND_CARDS: PlaygroundCard[] = [
   {
-    id: 'pg-cyrus-home',
-    title: 'cyrus.ai · Discovery',
-    subtitle: '40,017 open issues indexed',
-    image: '/assets/collected/shot-cyrus-home.png',
-    url: 'https://cyrus-agent.vercel.app',
-  },
-  {
-    id: 'pg-genesis',
-    title: 'Genesis · Research AI',
-    subtitle: 'Autonomous multi-model loop',
-    image: '/assets/collected/live-genesis.png',
-    url: 'https://genesis-researchai.vercel.app/',
+    id: 'pg-raakha',
+    title: 'Raakha Grace · Flagship',
+    subtitle: 'Handcrafted luxury jewellery',
+    category: 'Flagships',
+    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.48.23_8c52280f.png',
+    url: 'https://raakhagracecrafted.vercel.app/',
   },
   {
     id: 'pg-nirogi',
     title: 'Nirogi AI',
-    subtitle: 'Preventive Health OS',
+    subtitle: '9 Preventive Healthcare Tools',
+    category: 'AI Products',
     image: '/assets/collected/live-nirogi.png',
     url: 'https://nirogi-healthai.lovable.app',
-  },
-  {
-    id: 'pg-spectre',
-    title: 'Spectre',
-    subtitle: 'Karnataka Police AI',
-    image: '/assets/collected/live-spectre.png',
-    url: 'https://spectre-crimeai.lovable.app',
   },
   {
     id: 'pg-static',
     title: 'Static',
     subtitle: 'EV & Solar Route AI',
-    image: '/assets/collected/live-static.png',
+    category: 'AI Products',
+    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.47.09_f075f2ed.png',
     url: 'https://static-chargepoint.lovable.app',
   },
   {
     id: 'pg-beyondhuman',
     title: 'BeyondHuman',
     subtitle: 'Adaptive Fitness AI',
-    image: '/assets/collected/live-beyondhuman.png',
+    category: 'AI Products',
+    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.46.41_981fd069.png',
     url: 'https://beyondhuman-healthai.lovable.app/',
   },
   {
-    id: 'pg-davinci',
-    title: 'DaVinci Canvas',
-    subtitle: 'Generative Image Studio',
-    image: '/assets/collected/live-davinci.png',
-    url: 'https://davinci-creativeai.lovable.app/',
+    id: 'pg-spectre',
+    title: 'Spectre',
+    subtitle: 'Karnataka Police AI',
+    category: 'AI Products',
+    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.46.12_976a74ad.png',
+    url: 'https://spectre-crimeai.lovable.app',
   },
   {
-    id: 'pg-remix',
-    title: 'RemixMusicAI',
-    subtitle: 'Browser Remix Studio',
-    image: '/assets/collected/live-remix.png',
-    url: 'https://remix-musicai.lovable.app/',
+    id: 'pg-genesis',
+    title: 'Genesis · Research AI',
+    subtitle: 'Autonomous multi-model loop',
+    category: 'AI Products',
+    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.49.40_590a5e89.png',
+    url: 'https://genesis-researchai.vercel.app/',
+  },
+  {
+    id: 'pg-cyrus-home',
+    title: 'cyrus.ai · Discovery',
+    subtitle: '40,017 open issues indexed',
+    category: 'Flagships',
+    image: '/assets/collected/shot-cyrus-home.png',
+    url: 'https://cyrus-agent.vercel.app',
+  },
+  {
+    id: 'pg-cyrus-issues',
+    title: 'cyrus.ai · Issues Explorer',
+    subtitle: '290+ active open-source repos',
+    category: 'Flagships',
+    image: '/assets/collected/shot-cyrus-issues.png',
+    url: 'https://cyrus-agent.vercel.app/issues',
   },
 ];
 
 export const EXPERIENCES: ExperienceItem[] = [
+  {
+    id: 'exp-swoc',
+    role: 'Project Administrator',
+    organization: 'Social Winter of Code (SWOC)',
+    location: 'Remote, India',
+    period: 'Nov 2026 — Present',
+    type: 'Open Source Leadership',
+    summary:
+      'Administer open-source projects across SWOC, supporting contributors and maintainers through GitHub and Git workflows.',
+    highlights: [
+      'Review repository readiness, issue triage, and contributor onboarding workflows across active program tracks.',
+      'Coordinate pull-request reviews and maintainer communication using GitHub and Git.',
+    ],
+  },
+  {
+    id: 'exp-nsoc',
+    role: 'Project Administrator',
+    organization: 'Nexus Spring of Code (NSoC)',
+    location: 'Remote, India',
+    period: 'Oct 2026 — Present',
+    type: 'Open Source Leadership',
+    summary:
+      'Manage open-source projects and contributor workflows, overseeing repositories and pull requests.',
+    highlights: [
+      'Coordinate repository standards, contribution guidelines, and PR merge pipelines for participating student engineers.',
+      'Guide new open-source contributors from issue discovery through clean code reviews.',
+    ],
+  },
   {
     id: 'exp-solo-builder',
     role: 'AI Product Builder & Webstack Developer',
@@ -662,8 +696,8 @@ export const EXPERIENCES: ExperienceItem[] = [
     summary:
       'Solo product engineer designing, building, and shipping consumer SaaS and India-first AI platforms from zero to production URLs.',
     highlights: [
-      'Shipped 10+ live full-stack web apps including cyrus.ai, Genesis, Nirogi AI, Spectre, Static, BeyondHuman, and RemixMusicAI.',
-      'Architected multi-model workflows routing between Claude API, Google Gemini, and OpenAI with Supabase and Neon Postgres backends.',
+      'Shipped live full-stack web apps including cyrus.ai, Genesis, Nirogi AI, Spectre, Static, BeyondHuman, NXTGEN AI, and Raakha Grace.',
+      'Architected multi-model workflows routing between Claude API, Google Gemini, and OpenAI with Supabase and Postgres backends.',
     ],
   },
   {
@@ -682,30 +716,30 @@ export const EXPERIENCES: ExperienceItem[] = [
   },
   {
     id: 'exp-vnrvjiet',
-    role: 'B.Tech Undergraduate — Electronics & Communication Engineering (ECE)',
-    organization: 'VNR Vignana Jyothi Institute of Engineering & Technology',
-    location: 'Bachupally, Hyderabad',
+    role: 'B.E., Electrical, Electronics & Communications Engineering',
+    organization: 'VNR Vignana Jyothi Institute of Engineering & Technology (VNRVJIET)',
+    location: 'Hyderabad, India',
     period: '2026 — 2030',
     type: 'Engineering & Hardware',
     summary:
       'Pursuing Electronics & Communication Engineering while winning national technical symposium tracks and building AI hardware/software prototypes.',
     highlights: [
-      'Won 1st Place in Agentic Arena at CONVERGENCE 2k26 (VNRVJIET 27th National Level Technical Symposium).',
-      'Built & demoed applied AI prototypes across CSI VJ Hackathon, IEI Project Contest, Turing Hut Coding Contest, and Certified Web Portfolio Practitioner (CWPP) honors.',
+      'Won 1st Place in Agentic Arena at CONVERGENCE 2k26 (Krithomedh, VNRVJIET · Sep 2026).',
+      'Active across CSI VJ Hackathon, IEI Project Contest, Turing Hut Coding Contest, Top 100 Coders 3.0, and Simulink Challenge.',
     ],
   },
   {
     id: 'exp-hackathons',
     role: 'Civic & National Hackathon Engineer',
-    organization: 'KSP Datathon · Hack2Skill · Redrob AI · CSI · IEI',
+    organization: 'KSP Datathon · Redrob × Hack2skill · iQOO · CSI · IEI',
     location: 'India',
     period: '2026',
     type: 'Competitive Prototyping',
     summary:
       'Rapidly translated institutional and civic briefs into working production prototypes under strict hackathon mandates.',
     highlights: [
-      'Developed Spectre crime-pattern intelligence for Karnataka State Police (KSP Datathon 2026 / Hack2Skill).',
-      'Submitted Nirogi AI (12 preventive health tools) for India Runs by Redrob AI — Track 2 Ideathon.',
+      'Developed Spectre crime-pattern intelligence for Karnataka State Police (KSP Datathon 2026).',
+      'Built Nirogi AI (9 free preventive health tools) for Redrob × Hack2skill and NXTGEN AI for the iQOO Hackathon.',
     ],
   },
 ];
@@ -839,23 +873,23 @@ export const CERTIFICATES: CertificateItem[] = [
   },
   {
     id: 'cert-simusolve',
-    title: 'SimuSolve Challenge — Convergence 2k26',
+    title: 'Simulink Challenge — MATLAB Coding (Convergence 2k26)',
     issuer: 'VNRVJIET · 27th National Level Technical Symposium',
-    issuerShort: 'SS',
+    issuerShort: 'ML',
     issuerAccent: 'bg-[#334155] text-white',
     issuerLogo: '/assets/collected/logos/logo-krithomedh.png',
     date: 'Sep 2026',
     sortOrder: 9,
     category: 'VNRVJIET',
     credentialId: 'CONVERGENCE 2k26 · VNRVJIET',
-    skills: ['Simulation Modeling', 'Engineering Problem Solving'],
-    credentialDetail: 'Official certificate of participation for analytical simulation challenges at CONVERGENCE 2k26.',
+    skills: ['MATLAB', 'Simulink', 'Simulation Modeling'],
+    credentialDetail: 'Official certificate of participation for MATLAB & Simulink simulation challenges at CONVERGENCE 2k26.',
     image: '/assets/collected/cert-simusolve.png',
   },
   {
     id: 'cert-top100',
-    title: 'TOP 100 Coders',
-    issuer: 'Krithomedh VNRVJIET',
+    title: 'Top 100 Coders 3.0',
+    issuer: 'Krithomedh, VNRVJIET',
     issuerShort: '100',
     issuerAccent: 'bg-[#1D4ED8] text-white',
     issuerLogo: '/assets/collected/logos/logo-krithomedh.png',
@@ -867,17 +901,29 @@ export const CERTIFICATES: CertificateItem[] = [
     image: '/assets/collected/cert-top100.png',
   },
   {
+    id: 'cert-hacktoberfest',
+    title: 'Certificate of Perfection — Hacktoberfest 2026',
+    issuer: 'Hacktoberfest',
+    issuerShort: 'HF',
+    issuerAccent: 'bg-[#7C3AED] text-white',
+    date: 'Oct 2026',
+    sortOrder: 11,
+    category: 'AI & Coding',
+    skills: ['Open-Source Collaboration', 'Git & GitHub'],
+    credentialDetail: 'Awarded Certificate of Perfection for verified merged pull requests during Hacktoberfest 2026.',
+  },
+  {
     id: 'cert-cwpp',
-    title: 'Certified Web Portfolio Practitioner (CWPP)',
+    title: 'Portfolio Making — VJ Data Questers',
     issuer: 'VJ DATA QUESTERS',
     issuerShort: 'DQ',
     issuerAccent: 'bg-[#0D9488] text-white',
     issuerLogo: '/assets/collected/logos/logo-vjdq.png',
     date: '2026',
-    sortOrder: 11,
+    sortOrder: 12,
     category: 'VNRVJIET',
-    skills: ['Front-End Development', 'Project Portfolio Management'],
-    credentialDetail: 'Awarded for engineering quality, visual architecture, and live web portfolio execution.',
+    skills: ['Web Interface Design', 'Front-End Development'],
+    credentialDetail: 'Recognized for engineering quality, visual architecture, and live web portfolio execution.',
   },
 ];
 
@@ -930,19 +976,101 @@ export const RECOMMENDATIONS: RecommendationItem[] = [
 ];
 
 export const RESUME_SUMMARY = {
-  headline: 'ECE Undergrad & Solo AI Product Builder',
-  location: 'Hyderabad, Telangana, India',
-  education: {
-    institution: 'VNR Vignana Jyothi Institute of Engineering and Technology (VNRVJIET)',
-    degree: 'B.Tech — Electronics & Communication Engineering (ECE) · 2026 — 2030',
-    focus: 'Embedded Systems, Signal Processing, Full-Stack Web & Applied AI Engineering',
-  },
-  rule: 'Demo beats deck. Prototype → Deploy → Listen → Iterate.',
-  flagshipBuilds: [
-    'cyrus.ai — Open-source discovery platform indexing 40,017 issues & 8,754 mentored projects (Next.js 16, Neon Postgres)',
-    'Genesis — Multi-model AI research loop routing Claude, GPT & Gemini with sandboxed verification',
-    'Nirogi AI — 12 free preventive healthcare AI tools built for metro-to-village accessibility',
-    'Spectre — Geospatial crime analytics platform built for KSP Datathon 2026',
-    'Static — Multi-stop EV, fuel & solar highway navigator built for India',
+  headline: 'DESIGNER & DEVELOPER | UI/UX | BUILDING SOLUTIONS THAT SCALE',
+  location: 'Hyderabad, India',
+  pdfUrl: '/assets/aistudio/Aditya_Duggirala_Professional_Resume-4_86511f4c.pdf',
+  profile:
+    'Electronics & Communication Engineering student building at the intersection of technology and creativity. Developer, designer and AI explorer with hands-on experience in front-end development, UI/UX prototyping and open-source program administration. Driven by curiosity and innovation.',
+  experience: [
+    {
+      role: 'Project Administrator',
+      org: 'Social Winter of Code (SWOC)',
+      period: 'Nov 2026 – Present · Remote, India',
+      bullet: 'Administer open-source projects, supporting contributors and maintainers using GitHub and Git.',
+    },
+    {
+      role: 'Project Administrator',
+      org: 'Nexus Spring of Code (NSoC)',
+      period: 'Oct 2026 – Present · Remote, India',
+      bullet: 'Manage open-source projects and contributor workflows, including repositories and pull requests.',
+    },
   ],
+  education: [
+    {
+      title: 'B.E., Electrical, Electronics & Communications Engineering',
+      institution: 'VNR Vignana Jyothi Institute of Engineering & Technology (VNRVJIET)',
+      detail: 'ECE Undergraduate · Hyderabad, India',
+    },
+    {
+      title: 'Class 12',
+      institution: 'Sri Chaitanya College of Education',
+      detail: 'Grade: 97%',
+    },
+  ],
+  flagshipBuilds: [
+    {
+      title: 'Nirogi AI – Hackathon (Redrob × Hack2skill)',
+      description:
+        'Free preventive-healthcare platform with nine AI tools: medicine safety checks, skin scan, meal and sugar analysis, cancer, diabetes and heart-risk screening, scan/report reader and medicine verification.',
+      url: 'https://nirogi-healthai.lovable.app',
+      displayUrl: 'nirogi-healthai.lovable.app',
+    },
+    {
+      title: 'Spectre – KSP Datathon 2026 (Karnataka State Police)',
+      description:
+        'AI crime-intelligence platform for law enforcement: crime trend engine, hotspot detection and maps, 0–100 risk scoring, plain-English AI briefings, alert engine and printable district reports.',
+      url: 'https://spectre-crimeai.lovable.app',
+      displayUrl: 'spectre-crimeai.lovable.app',
+    },
+    {
+      title: 'Static EV Charge – SaaS Product',
+      description:
+        'EV, fuel and solar trip planner for India: chargers, fuel stations and highway food stops along the route, AI risk scoring, and in-app GPS navigation with voice and live rerouting.',
+      url: 'https://static-chargepoint.lovable.app',
+      displayUrl: 'static-chargepoint.lovable.app',
+    },
+    {
+      title: 'NXTGEN AI – iQOO Hackathon',
+      description:
+        'Learning platform that helps curious people turn the world into a learning space (“Learn in motion”).',
+      url: 'https://nxtgen-eduai.vercel.app',
+      displayUrl: 'nxtgen-eduai.vercel.app',
+    },
+    {
+      title: 'Cyrus AI – SaaS Product',
+      description:
+        'Open-source contribution program platform that helps contributors find their next contribution.',
+      url: 'https://cyrus-agent.vercel.app',
+      displayUrl: 'cyrus-agent.vercel.app',
+    },
+  ],
+  skills: {
+    design: 'Web Interface Design, User Interface Prototyping, UI/UX',
+    development: 'Web & Front-End Development, Python, TypeScript, JavaScript, HTML, C, MATLAB, Simulink',
+    tools: 'GitHub, Git, VS Code, Lovable, Figma, Supabase, PostgreSQL, Vercel, Deno',
+    aiAndOther: 'Claude, Gemini & OpenAI APIs, Prompt Engineering, Vibe Coding, Open-Source Collaboration, Project Management',
+  },
+  achievements: [
+    '1st Place – Certificate of Achievement, Convergence 2k26: Agentic Arena – Krithomedh, VNRVJIET · Sep 2026',
+    'Certificate of Perfection – Hacktoberfest · 2026',
+  ],
+  courseCompletions: [
+    'Certificate of Completion – Claude Academy: Introduction to Claude Cowork – Anthropic · Nov 2026',
+    'Certificate of Completion – Claude Academy: Claude 101 – Anthropic · Nov 2026',
+    'Certificate of Completion – C Fundamentals – Coddy · Nov 2026',
+  ],
+  participation: [
+    'Certificate of Participation – Top 100 Coders 3.0 – Krithomedh, VNRVJIET · 2026',
+    'Certificate of Participation – Coding Contest Convergence 2K26 – Turing Hut · Oct 2026',
+    'Certificate of Participation – Convergence 2k26: Project Contest – The Institution of Engineers (India) · Oct 2026',
+    'Certificate of Participation – Software Hackathon Convergence 2k26 – VJ Data Questers · Sep 2026',
+    'Certificate of Participation – VJ Hackathon 2026 – Computer Society of India, VNRVJIET · Oct 2026',
+    'Certificate of Participation – Portfolio Making – VJ Data Questers',
+    'Certificate of Participation – Simulink Challenge – MATLAB Coding · Sep 2026',
+  ],
+  declaration: {
+    statement: 'I hereby declare that the information furnished above is true and correct to the best of my knowledge and belief.',
+    place: 'Hyderabad',
+    date: '12 November 2026',
+  },
 };

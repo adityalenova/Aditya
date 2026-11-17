@@ -17,7 +17,6 @@ export function OutOfFrameSection() {
   return (
     <section id="out-of-frame" className="py-16 sm:py-24 border-t border-[#EFECE6] bg-white scroll-mt-20">
       <div className="max-w-[1160px] mx-auto px-5 sm:px-8">
-        {/* Centered Header Mirroring Image 3 ("Out of Frame") */}
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -34,7 +33,6 @@ export function OutOfFrameSection() {
           </p>
         </motion.div>
 
-        {/* 4 Illustrated Design Cards Styled Like Image 4 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7">
           {OUT_OF_FRAME_ITEMS.map((item, idx) => (
             <motion.article
@@ -75,7 +73,6 @@ export function OutOfFrameSection() {
           ))}
         </div>
 
-        {/* Editorial Quote Block Styled Like Image 4 */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}

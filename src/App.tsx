@@ -17,9 +17,16 @@ import { CaseStudyProject, EXTRA_CASE_STUDIES, SELECTED_WORK } from './data/port
 
 function findCaseStudyBySlug(slug: string | null): CaseStudyProject | null {
   if (!slug) return null;
-  const fromSelected = SELECTED_WORK.find((p) => p.slug === slug || p.id === slug);
+  const legacyAliases: Record<string, string> = {
+    'static-case': 'static-selected',
+    'beyondhuman-case': 'beyondhuman-selected',
+    'nirogi-case': 'nirogi-selected',
+    'spectre-case': 'spectre-selected',
+  };
+  const resolved = legacyAliases[slug] || slug;
+  const fromSelected = SELECTED_WORK.find((p) => p.slug === resolved || p.id === resolved);
   if (fromSelected) return fromSelected;
-  const fromExtra = Object.values(EXTRA_CASE_STUDIES).find((p) => p.slug === slug || p.id === slug);
+  const fromExtra = Object.values(EXTRA_CASE_STUDIES).find((p) => p.slug === resolved || p.id === resolved);
   return fromExtra || null;
 }
 

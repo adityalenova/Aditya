@@ -36,7 +36,6 @@ export function RecommendationsSection() {
             What it&rsquo;s like to work with me?
           </h2>
 
-          {/* Interactive Global Key-Highlights Switcher */}
           <div className="pt-1">
             <div className="inline-flex items-center gap-1 p-1 rounded-full bg-[#FAF9F7] border border-[#E7E5E0]">
               <button
@@ -84,7 +83,6 @@ export function RecommendationsSection() {
                       <div className="flex items-center justify-between gap-2">
                         <Quote className="w-6 h-6 text-[#7A1C24]/40 rotate-180" aria-hidden="true" />
 
-                        {/* Per-Card Full Quote vs Highlights Toggle */}
                         <div
                           className="inline-flex items-center gap-0.5 p-1 rounded-lg bg-[#FAF9F7] border border-[#E6E3DD]"
                           role="group"
@@ -150,7 +148,6 @@ export function RecommendationsSection() {
                     </article>
                   </Tilt3D>
 
-                  {/* Author Lockup with Real Human Portrait Avatar */}
                   <div className="inline-flex items-center gap-3 px-3.5 py-2.5 rounded-2xl bg-[#FAF9F7] border border-[#E7E5E0] shadow-xs ml-2">
                     {showAvatar ? (
                       <div className="w-11 h-11 rounded-xl overflow-hidden border border-[#E2DDD4] bg-[#EFECE6] shrink-0">
@@ -184,7 +181,6 @@ export function RecommendationsSection() {
           </div>
         </div>
 
-        {/* Bottom 3-Trait Summary Strip */}
         <div className="mt-14 pt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm sm:text-base font-medium text-[#292524]">
           <span>Fast Execution</span>
           <span className="text-[#7A1C24]" aria-hidden="true">·</span>

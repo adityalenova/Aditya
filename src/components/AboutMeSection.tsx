@@ -11,7 +11,7 @@ export function AboutMeSection() {
     <section id="about" className="py-16 sm:py-24 border-t border-[#EFECE6] bg-white scroll-mt-20">
       <div className="max-w-[1160px] mx-auto px-5 sm:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Left Full-Body AI Character Polaroid (Moved cleanly from Hero into About Us) */}
+          {/* Left Full-Body AI Character Polaroid */}
           <div className="lg:col-span-5 flex justify-center lg:justify-start">
             <Tilt3D maxTilt={7} scaleOnHover={1.015} className="w-full max-w-[380px]">
               <motion.div

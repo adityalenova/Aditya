@@ -51,7 +51,7 @@ export function FooterContactSection({ onOpenResume, onNavigate }: FooterContact
       id="contact"
       className="relative bg-white border-t border-[#EFECE6] pt-16 sm:pt-24 pb-16 sm:pb-24 overflow-hidden scroll-mt-20"
     >
-      {/* Signature Burgundy & Sand Studio Illustration Anchored Seamlessly Bottom-Right */}
+      {/* Signature Architectural Studio Illustration Anchored Seamlessly Bottom-Right */}
       {!imgFailed && (
         <div
           aria-hidden="true"
@@ -85,7 +85,7 @@ export function FooterContactSection({ onOpenResume, onNavigate }: FooterContact
             <button
               type="button"
               onClick={handleEmailClick}
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-[#151413] hover:bg-[#7A1C24] text-white text-sm font-medium transition-colors cursor-pointer shadow-[0_8px_20px_rgba(21,20,19,0.14)] whitespace-nowrap shrink-0"
+              className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-[#151413] hover:bg-[#7A1C24] text-white text-sm font-semibold transition-colors cursor-pointer shadow-[0_12px_28px_rgba(21,20,19,0.18)] whitespace-nowrap shrink-0"
             >
               {copiedEmail ? <Check className="w-4 h-4" aria-hidden="true" /> : null}
               <span>{copiedEmail ? 'Email copied!' : 'Email Me'}</span>
@@ -105,11 +105,11 @@ export function FooterContactSection({ onOpenResume, onNavigate }: FooterContact
           {composerOpen && (
             <form
               onSubmit={handleSendNote}
-              className="max-w-md p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-[#E2DDD3] space-y-3 shadow-xl"
+              className="max-w-md p-4 rounded-2xl bg-[#FAF9F7] border border-[#E6E3DD] shadow-[0_18px_40px_rgba(21,20,19,0.08)] space-y-3"
             >
-              <div className="flex items-center justify-between text-xs text-[#78716C]">
+              <div className="flex items-center justify-between text-xs text-[#625E59]">
                 <span className="font-mono text-[#151413]">{PROFILE_LINKS.email}</span>
-                <span className="inline-flex items-center gap-1 text-[#059669] font-medium">
+                <span className="inline-flex items-center gap-1 text-[#7A1C24] font-medium">
                   <Copy className="w-3 h-3" aria-hidden="true" /> Copied
                 </span>
               </div>
@@ -123,7 +123,7 @@ export function FooterContactSection({ onOpenResume, onNavigate }: FooterContact
                     className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-colors cursor-pointer ${
                       selectedTopic === topic
                         ? 'bg-[#7A1C24] text-white'
-                        : 'bg-[#FAF9F7] text-[#57534E] hover:text-[#151413] border border-[#E6E3DD]'
+                        : 'bg-white text-[#57534E] hover:text-[#151413] border border-[#E6E3DD]'
                     }`}
                   >
                     {topic}
@@ -137,7 +137,7 @@ export function FooterContactSection({ onOpenResume, onNavigate }: FooterContact
                 onChange={(e) => setSenderName(e.target.value)}
                 placeholder="Your name or team"
                 aria-label="Your name or team"
-                className="w-full px-3.5 py-2 rounded-xl bg-[#FAF9F7] border border-[#E6E3DD] text-xs text-[#151413] placeholder:text-[#A8A29E] focus:outline-none focus:ring-2 focus:ring-[#7A1C24]"
+                className="w-full px-3.5 py-2 rounded-xl bg-white border border-[#E6E3DD] text-xs text-[#151413] placeholder:text-[#9A958E] focus:outline-none focus:ring-2 focus:ring-[#7A1C24]"
               />
               <textarea
                 rows={2}
@@ -146,12 +146,12 @@ export function FooterContactSection({ onOpenResume, onNavigate }: FooterContact
                 placeholder="What are we building together?"
                 aria-label="Message"
                 required
-                className="w-full px-3.5 py-2 rounded-xl bg-[#FAF9F7] border border-[#E6E3DD] text-xs text-[#151413] placeholder:text-[#A8A29E] focus:outline-none focus:ring-2 focus:ring-[#7A1C24] resize-none"
+                className="w-full px-3.5 py-2 rounded-xl bg-white border border-[#E6E3DD] text-xs text-[#151413] placeholder:text-[#9A958E] focus:outline-none focus:ring-2 focus:ring-[#7A1C24] resize-none"
               />
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#151413] hover:bg-[#7A1C24] text-white text-xs font-medium cursor-pointer transition-colors"
+                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#151413] hover:bg-[#7A1C24] text-white text-xs font-semibold cursor-pointer transition-colors"
                 >
                   <Send className="w-3 h-3" aria-hidden="true" />
                   <span>Open Mail</span>
@@ -214,7 +214,7 @@ export function FooterContactSection({ onOpenResume, onNavigate }: FooterContact
             </a>
           </div>
 
-          <div className="pt-2 text-xs text-[#78716C]">
+          <div className="pt-2 text-xs text-[#736E68]">
             © {new Date().getFullYear()} {PROFILE_LINKS.name} · VNRVJIET ECE · Hyderabad, India
           </div>
         </div>

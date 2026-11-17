@@ -44,7 +44,7 @@ export function Navbar({ activeSection, onNavigate, onOpenResume }: NavbarProps)
             <span className="w-5 h-5 rounded-full bg-white shadow-xs transition-transform" />
           </span>
           <span className="text-[12.5px] sm:text-[13.5px] leading-tight text-[#151413] font-medium max-w-[175px]">
-            {collabActive ? 'Open for any collaborations & offers' : 'Building AI @ VNRVJIET'}
+            {collabActive ? 'Open for any collaborations & offers' : 'Building AI'}
           </span>
         </button>
 

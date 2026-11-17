@@ -93,10 +93,13 @@ export function FolderShowcaseSection({ onSelectCaseStudy }: FolderShowcaseSecti
 
           <div className="relative rounded-[28px] rounded-tl-[10px] bg-gradient-to-b from-[#EDE9E0] to-[#E5E0D5] border border-[#DBD5C9] shadow-[0_32px_75px_rgba(21,20,19,0.1)] pt-8 px-4 sm:px-8 pb-4">
             {/* Fanned Layered Cards Popping Out Cleanly from Inside the Folder */}
-            <div className="relative h-[165px] sm:h-[225px] flex items-end justify-center">
+            <div className="relative h-[165px] sm:h-[220px] flex items-end justify-center">
               {FOLDER_CARDS.map((card, idx) => {
-                const offsets = [-46, -15.5, 15.5, 46];
-                const rotations = [-6.5, -2.2, 2.2, 6.5];
+                const count = FOLDER_CARDS.length;
+                const mid = (count - 1) / 2;
+                const stepOffset = idx - mid;
+                const xPercent = stepOffset * 32;
+                const rotateDeg = stepOffset * 3.8;
                 const isFocused = focusedCardId === card.id;
                 const baseLift = folderOpen ? -48 - (idx % 2) * 12 : -8;
                 const finalLift = folderOpen && isFocused ? baseLift - 22 : baseLift;
@@ -109,14 +112,14 @@ export function FolderShowcaseSection({ onSelectCaseStudy }: FolderShowcaseSecti
                     onClick={() => openCardStudy(card.caseStudyId)}
                     animate={{
                       y: finalLift,
-                      rotate: folderOpen ? rotations[idx] * 1.15 : rotations[idx],
+                      rotate: folderOpen ? rotateDeg * 1.15 : rotateDeg,
                       scale: folderOpen && isFocused ? 1.07 : 1,
-                      x: `${offsets[idx]}%`,
+                      x: `${xPercent}%`,
                     }}
                     whileHover={{ y: finalLift - 12, scale: 1.09, rotate: 0 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 24 }}
                     style={{ zIndex: isFocused ? 35 : 10 + idx }}
-                    className={`absolute bottom-0 w-[168px] sm:w-[250px] aspect-[16/10] rounded-2xl overflow-hidden bg-[#121215] shadow-[0_22px_48px_rgba(20,20,19,0.22)] cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A1C24] border-[3px] ${
+                    className={`absolute bottom-0 w-[142px] sm:w-[218px] aspect-[19/10] rounded-2xl overflow-hidden bg-[#121215] shadow-[0_22px_48px_rgba(20,20,19,0.22)] cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A1C24] border-[3px] ${
                       isFocused ? 'border-[#7A1C24] ring-2 ring-[#7A1C24]/25' : 'border-white'
                     }`}
                   >
@@ -171,7 +174,6 @@ export function FolderShowcaseSection({ onSelectCaseStudy }: FolderShowcaseSecti
                     </span>
                   </p>
 
-                  {/* Focused Project Quick Readout + Direct Action */}
                   {activeStudy && (
                     <div className="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-[#EFECE6]">
                       <div className="text-xs text-[#57534E]">
