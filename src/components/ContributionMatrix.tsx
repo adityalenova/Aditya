@@ -32,11 +32,11 @@ const MATRIX_COLUMNS: CellMilestone[][] = Array.from({ length: 16 }, (_, col) =>
 );
 
 const LEVEL_COLORS: Record<0 | 1 | 2 | 3 | 4, string> = {
-  0: 'bg-[#EBEDF0]',
-  1: 'bg-[#9BE9A8]',
-  2: 'bg-[#40C463]',
-  3: 'bg-[#30A14E]',
-  4: 'bg-[#216E39]',
+  0: 'bg-[var(--surface-raised)]',
+  1: 'bg-[#E59569]/35',
+  2: 'bg-[#E59569]/60',
+  3: 'bg-[#C67848]',
+  4: 'bg-[#8F4D27] dark:bg-[#F0A780]',
 };
 
 export function ContributionMatrix() {
@@ -45,7 +45,7 @@ export function ContributionMatrix() {
   return (
     <div className="relative inline-flex flex-col items-start">
       <div
-        className="inline-flex items-center gap-[3px] p-2.5 rounded-xl bg-white border border-[#E7E5E0] shadow-[0_2px_8px_rgba(20,20,19,0.03)]"
+        className="inline-flex items-center gap-[3px] p-2.5 rounded-xl bg-[var(--surface)] border border-[var(--hairline)] shadow-[0_2px_8px_rgba(43,27,21,0.04)]"
         role="img"
         aria-label="Shipping activity matrix highlighting recent AI builds"
         onMouseLeave={() => setHoveredNote(null)}
@@ -64,7 +64,7 @@ export function ContributionMatrix() {
       </div>
 
       {hoveredNote && (
-        <div className="hidden sm:block absolute left-0 -bottom-7 whitespace-nowrap text-xs text-[#625E59] bg-white/95 px-2 py-0.5 rounded-md border border-[#E7E5E0] shadow-xs pointer-events-none z-20">
+        <div className="hidden sm:block absolute right-0 -bottom-7 whitespace-nowrap text-xs text-[var(--secondary)] bg-[var(--surface)] px-2.5 py-0.5 rounded-md border border-[var(--hairline)] shadow-xs pointer-events-none z-20">
           {hoveredNote}
         </div>
       )}

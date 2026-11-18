@@ -4,7 +4,7 @@ import { Headphones, Footprints, Film, Mic } from 'lucide-react';
 import { OUT_OF_FRAME_ITEMS } from '../data/portfolioData';
 
 function HobbyFallbackIcon({ id }: { id: string }) {
-  const cls = 'w-8 h-8 text-[#7A1C24]';
+  const cls = 'w-8 h-8 text-[var(--accent)]';
   if (id === 'oof-sneakers') return <Footprints className={cls} aria-hidden="true" />;
   if (id === 'oof-music') return <Headphones className={cls} aria-hidden="true" />;
   if (id === 'oof-video') return <Film className={cls} aria-hidden="true" />;
@@ -15,7 +15,10 @@ export function OutOfFrameSection() {
   const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
 
   return (
-    <section id="out-of-frame" className="py-16 sm:py-24 border-t border-[#EFECE6] bg-white scroll-mt-20">
+    <section
+      id="out-of-frame"
+      className="py-16 sm:py-24 border-t border-[var(--hairline)] bg-[var(--surface)] scroll-mt-20 transition-colors duration-200"
+    >
       <div className="max-w-[1160px] mx-auto px-5 sm:px-8">
         <motion.div
           initial={{ opacity: 0, y: 14 }}
@@ -24,12 +27,12 @@ export function OutOfFrameSection() {
           transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           className="text-center max-w-2xl mx-auto space-y-3 mb-12 sm:mb-16"
         >
-          <h2 className="font-display text-[2.45rem] sm:text-[3.5rem] font-bold tracking-[-0.035em] leading-none text-[#151413]">
+          <h2 className="font-display text-[2.45rem] sm:text-[3.5rem] font-bold tracking-[-0.035em] leading-none text-[var(--primary)]">
             Out of Frame
           </h2>
-          <p className="text-sm sm:text-[16px] text-[#57534E] font-medium tracking-tight">
-            Sneaker collector <span className="mx-1.5 text-[#7A1C24]">|</span> Music listener{' '}
-            <span className="mx-1.5 text-[#7A1C24]">|</span> Video editing &amp; creator craft
+          <p className="text-sm sm:text-[16px] text-[var(--secondary)] font-medium tracking-tight">
+            Sneaker collector <span className="mx-1.5 text-[var(--accent)]">|</span> Music listener{' '}
+            <span className="mx-1.5 text-[var(--accent)]">|</span> Video editing &amp; creator craft
           </p>
         </motion.div>
 
@@ -42,9 +45,10 @@ export function OutOfFrameSection() {
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.42, delay: idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ y: -6 }}
-              className="group rounded-[24px] bg-[#FAF9F7] hover:bg-white border border-[#EAE5DC] hover:border-[#7A1C24]/35 p-5 flex flex-col justify-between transition-all duration-200 shadow-[0_10px_28px_rgba(21,20,19,0.04)] hover:shadow-[0_22px_45px_rgba(21,20,19,0.09)]"
+              className="group rounded-[24px] bg-[var(--surface-raised)] hover:bg-[var(--surface)] border border-[var(--hairline)] hover:border-[var(--accent)]/45 p-5 flex flex-col justify-between transition-all duration-200 shadow-[0_10px_28px_rgba(43,27,21,0.04)] dark:shadow-[0_14px_34px_rgba(0,0,0,0.34)] hover:shadow-[0_22px_45px_rgba(43,27,21,0.1)]"
             >
-              <div className="aspect-[4/3] w-full rounded-[16px] bg-white border border-[#EFECE6] overflow-hidden flex items-center justify-center p-3">
+              {/* Archival warm paper cutout well keeps dark-ink sketches legible in dark mode */}
+              <div className="aspect-[4/3] w-full rounded-[16px] bg-[#FAF8F5] border border-[var(--hairline)] overflow-hidden flex items-center justify-center p-3">
                 {!failedImages[item.id] ? (
                   <img
                     src={item.image}
@@ -59,13 +63,13 @@ export function OutOfFrameSection() {
               </div>
 
               <div className="pt-4 space-y-1">
-                <div className="text-[11px] font-mono uppercase tracking-[0.12em] text-[#7A1C24] font-semibold">
+                <div className="text-[11px] font-mono uppercase tracking-[0.12em] text-[var(--accent)] font-semibold">
                   {item.kicker}
                 </div>
-                <h3 className="font-display text-lg font-bold tracking-tight text-[#151413]">
+                <h3 className="font-display text-lg font-bold tracking-tight text-[var(--primary)]">
                   {item.title}
                 </h3>
-                <p className="text-xs sm:text-[13.5px] leading-relaxed text-[#625E59]">
+                <p className="text-xs sm:text-[13.5px] leading-relaxed text-[var(--secondary)]">
                   {item.caption}
                 </p>
               </div>
@@ -78,14 +82,14 @@ export function OutOfFrameSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
           transition={{ duration: 0.45, delay: 0.12 }}
-          className="mt-14 sm:mt-16 pt-10 border-t border-[#EFECE6] max-w-2xl mx-auto text-center space-y-2.5"
+          className="mt-14 sm:mt-16 pt-10 border-t border-[var(--hairline)] max-w-2xl mx-auto text-center space-y-2.5"
         >
-          <div className="text-[11px] font-mono uppercase tracking-[0.18em] text-[#736E68]">
+          <div className="text-[11px] font-mono uppercase tracking-[0.18em] text-[var(--muted)]">
             And I Quote
           </div>
-          <p className="font-display text-[1.75rem] sm:text-[2.4rem] font-bold tracking-[-0.03em] leading-[1.12] text-[#151413] [text-wrap:balance]">
-            <span className="text-[#7A1C24]">Design</span> something that{' '}
-            <span className="text-[#7A1C24]">has a reason</span> for being.
+          <p className="font-display text-[1.75rem] sm:text-[2.4rem] font-bold tracking-[-0.03em] leading-[1.12] text-[var(--primary)] [text-wrap:balance]">
+            <span className="text-[var(--accent)]">Design</span> something that{' '}
+            <span className="text-[var(--accent)]">has a reason</span> for being.
           </p>
         </motion.div>
       </div>

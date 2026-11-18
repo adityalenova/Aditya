@@ -35,7 +35,7 @@ const STACK_TIERS: StackTier[] = [
         items: [
           { name: 'React 19', level: 3, usedIn: 'cyrus.ai, Nirogi AI, Spectre, Static & this portfolio' },
           { name: 'TypeScript', level: 3, usedIn: 'Strict end-to-end types across every client & API route' },
-          { name: 'Tailwind CSS', level: 3, usedIn: 'Custom light-gallery tokens & responsive layouts' },
+          { name: 'Tailwind CSS', level: 3, usedIn: 'Custom light/dark gallery tokens & responsive layouts' },
           { name: 'Vite', level: 2, usedIn: 'Zero-latency HMR and rapid prototype bundling' },
         ],
       },
@@ -124,7 +124,7 @@ const STACK_TIERS: StackTier[] = [
 ];
 
 function TierIcon({ type }: { type: StackTier['icon'] }) {
-  const cls = 'w-5 h-5 text-white';
+  const cls = 'w-5 h-5 text-white dark:text-[#160F0C]';
   if (type === 'monitor') return <Monitor className={cls} aria-hidden="true" />;
   if (type === 'server') return <Server className={cls} aria-hidden="true" />;
   if (type === 'database') return <Database className={cls} aria-hidden="true" />;
@@ -140,26 +140,26 @@ export function TechStackSection() {
   return (
     <section
       id="stack"
-      className="py-16 sm:py-24 border-t border-[#EFECE6] bg-[#FAF9F7]/70 scroll-mt-20"
+      className="py-16 sm:py-24 border-t border-[var(--hairline)] bg-[var(--surface-raised)]/40 scroll-mt-20 transition-colors duration-200"
     >
       <div className="max-w-[1160px] mx-auto px-5 sm:px-8">
         {/* Section Header + Live Tool Spotlight */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12 sm:mb-14">
           <div className="space-y-2.5 max-w-xl">
-            <div className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.14em] uppercase text-[#7A1C24]">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.14em] uppercase text-[var(--accent)]">
               <Layers className="w-3.5 h-3.5" aria-hidden="true" />
               <span>Architecture &amp; Stack</span>
             </div>
-            <h2 className="font-display text-[2.2rem] sm:text-[2.9rem] font-bold tracking-[-0.03em] leading-[1.06] text-[#151413] [text-wrap:balance]">
+            <h2 className="font-display text-[2.2rem] sm:text-[2.9rem] font-bold tracking-[-0.03em] leading-[1.06] text-[var(--primary)] [text-wrap:balance]">
               How everything I build fits together.
             </h2>
           </div>
 
-          <div className="px-4 py-3 rounded-2xl bg-white border border-[#E5E0D8] shadow-[0_6px_20px_rgba(21,20,19,0.04)] max-w-md w-full">
-            <div className="text-[11px] font-mono uppercase tracking-[0.1em] text-[#7A1C24] font-semibold">
+          <div className="px-4 py-3 rounded-2xl bg-[var(--surface)] border border-[var(--hairline)] shadow-[0_6px_20px_rgba(43,27,21,0.04)] dark:shadow-[0_10px_28px_rgba(0,0,0,0.3)] max-w-md w-full">
+            <div className="text-[11px] font-mono uppercase tracking-[0.1em] text-[var(--accent)] font-semibold">
               In Production · {selectedTool.name}
             </div>
-            <div className="text-xs sm:text-[13px] text-[#4E4A45] mt-1 leading-snug">
+            <div className="text-xs sm:text-[13px] text-[var(--secondary)] mt-1 leading-snug">
               {selectedTool.usedIn}
             </div>
           </div>
@@ -169,7 +169,7 @@ export function TechStackSection() {
         <div className="relative">
           <div
             aria-hidden="true"
-            className="hidden sm:block absolute left-1/2 -translate-x-1/2 top-8 bottom-8 w-px bg-gradient-to-b from-[#7A1C24]/30 via-[#DED8CE] to-[#7A1C24]/25"
+            className="hidden sm:block absolute left-1/2 -translate-x-1/2 top-8 bottom-8 w-px bg-gradient-to-b from-[var(--accent)]/35 via-[var(--hairline)] to-[var(--accent)]/30"
           />
 
           <div className="relative space-y-6 sm:space-y-8">
@@ -183,28 +183,28 @@ export function TechStackSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-50px' }}
                   transition={{ duration: 0.42, delay: idx * 0.05, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative z-10 rounded-[24px] overflow-hidden bg-white border border-[#E4DFD6] shadow-[0_14px_40px_rgba(21,20,19,0.05)] hover:border-[#D2C9BC] transition-colors"
+                  className="relative z-10 rounded-[24px] overflow-hidden bg-[var(--surface)] border border-[var(--hairline)] shadow-[0_14px_40px_rgba(43,27,21,0.05)] dark:shadow-[0_18px_46px_rgba(0,0,0,0.36)] hover:border-[var(--accent)]/40 transition-colors"
                 >
                   <div className="grid grid-cols-1 lg:grid-cols-12">
                     {/* Left Identity Rail */}
-                    <div className="lg:col-span-4 relative p-6 sm:p-7 bg-gradient-to-br from-[#F7F1EB] via-[#FAF7F3] to-[#FFFFFF] border-b lg:border-b-0 lg:border-r border-[#EAE4DA] flex flex-col justify-center min-h-[152px]">
+                    <div className="lg:col-span-4 relative p-6 sm:p-7 bg-[var(--surface-raised)]/70 border-b lg:border-b-0 lg:border-r border-[var(--hairline)] flex flex-col justify-center min-h-[152px]">
                       <span
-                        className="absolute top-4 right-4 w-7 h-7 rounded-full bg-white border border-[#DFD8CC] text-[11px] font-mono font-semibold text-[#7A1C24] flex items-center justify-center shadow-xs tabular-nums"
+                        className="absolute top-4 right-4 w-7 h-7 rounded-full bg-[var(--surface)] border border-[var(--hairline)] text-[11px] font-mono font-semibold text-[var(--accent)] flex items-center justify-center shadow-xs tabular-nums"
                         title={`${totalCount} technologies in ${tier.title}`}
                       >
                         {totalCount}
                       </span>
 
                       <div className="flex items-center gap-4 pr-8">
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#8B212A] to-[#63131A] shadow-[0_10px_24px_rgba(122,28,36,0.28)] border border-[#7A1C24]/30 flex items-center justify-center shrink-0">
+                        <div className="w-12 h-12 rounded-2xl bg-[var(--accent)] shadow-[0_10px_24px_rgba(198,120,72,0.28)] border border-[var(--accent)]/30 flex items-center justify-center shrink-0">
                           <TierIcon type={tier.icon} />
                         </div>
 
                         <div>
-                          <h3 className="font-display text-xl sm:text-[22px] font-bold tracking-[-0.02em] text-[#151413]">
+                          <h3 className="font-display text-xl sm:text-[22px] font-bold tracking-[-0.02em] text-[var(--primary)]">
                             {tier.title}
                           </h3>
-                          <p className="text-xs sm:text-[13px] text-[#736E68] mt-0.5">
+                          <p className="text-xs sm:text-[13px] text-[var(--secondary)] mt-0.5">
                             {tier.subtitle}
                           </p>
                         </div>
@@ -212,8 +212,8 @@ export function TechStackSection() {
                     </div>
 
                     {/* Right Categorized Capabilities Pane */}
-                    <div className="lg:col-span-8 p-6 sm:p-7 flex flex-col justify-center gap-5 bg-white">
-                      <p className="text-sm sm:text-[15.5px] text-[#4A4641] leading-relaxed">
+                    <div className="lg:col-span-8 p-6 sm:p-7 flex flex-col justify-center gap-5 bg-[var(--surface)]">
+                      <p className="text-sm sm:text-[15.5px] text-[var(--secondary)] leading-relaxed">
                         {tier.description}
                       </p>
 
@@ -221,10 +221,10 @@ export function TechStackSection() {
                         {tier.groups.map((group) => (
                           <div key={group.label} className="space-y-2.5">
                             <div className="flex items-center gap-3">
-                              <span className="text-[10.5px] font-mono font-semibold tracking-[0.14em] text-[#7A1C24] uppercase whitespace-nowrap shrink-0">
+                              <span className="text-[10.5px] font-mono font-semibold tracking-[0.14em] text-[var(--accent)] uppercase whitespace-nowrap shrink-0">
                                 {group.label}
                               </span>
-                              <span className="h-px flex-1 bg-[#EDE9E1]" aria-hidden="true" />
+                              <span className="h-px flex-1 bg-[var(--hairline)]" aria-hidden="true" />
                             </div>
 
                             <div className="flex flex-wrap gap-2">
@@ -238,8 +238,8 @@ export function TechStackSection() {
                                     onClick={() => setSelectedTool({ name: item.name, usedIn: item.usedIn })}
                                     className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-medium border transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                                       isSelected
-                                        ? 'bg-[#7A1C24] text-white border-[#7A1C24] shadow-[0_6px_16px_rgba(122,28,36,0.2)]'
-                                        : 'bg-[#FAF9F7] hover:bg-[#F3EFE8] text-[#151413] border-[#E4DFD6]'
+                                        ? 'bg-[var(--accent)] text-white dark:text-[#160F0C] border-[var(--accent)] font-semibold shadow-[0_6px_16px_rgba(198,120,72,0.24)]'
+                                        : 'bg-[var(--surface-raised)] hover:bg-[var(--accent-soft)] text-[var(--primary)] border-[var(--hairline)]'
                                     }`}
                                   >
                                     <span>{item.name}</span>
@@ -248,7 +248,7 @@ export function TechStackSection() {
                                         <span
                                           key={dotIdx}
                                           className={`w-1 h-1 rounded-full ${
-                                            isSelected ? 'bg-[#FDE68A]' : 'bg-[#7A1C24]/65'
+                                            isSelected ? 'bg-current opacity-85' : 'bg-[var(--accent)]'
                                           }`}
                                         />
                                       ))}

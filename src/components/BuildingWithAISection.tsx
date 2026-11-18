@@ -30,7 +30,7 @@ function AppBadgeIcon({
   if (logoUrl && !logoError) {
     return (
       <div
-        className={`w-12 h-12 rounded-[14px] ${logoBg || 'bg-[#111216]'} border border-black/10 p-1.5 flex items-center justify-center shadow-[0_8px_20px_rgba(20,20,19,0.14)] shrink-0 overflow-hidden`}
+        className={`w-12 h-12 rounded-[14px] ${logoBg || 'bg-[#1E1612]'} border border-[var(--hairline)] p-1.5 flex items-center justify-center shadow-[0_8px_20px_rgba(43,27,21,0.14)] shrink-0 overflow-hidden`}
       >
         <img
           src={logoUrl}
@@ -44,7 +44,7 @@ function AppBadgeIcon({
   }
 
   return (
-    <div className={`w-12 h-12 rounded-[14px] ${bg} flex items-center justify-center shadow-[0_6px_16px_rgba(20,20,19,0.12)] shrink-0`}>
+    <div className={`w-12 h-12 rounded-[14px] ${bg} flex items-center justify-center shadow-[0_6px_16px_rgba(43,27,21,0.12)] shrink-0`}>
       {type === 'health' && <HeartPulse className={iconClass} aria-hidden="true" />}
       {type === 'shield' && <ShieldAlert className={iconClass} aria-hidden="true" />}
       {type === 'bolt' && <Zap className={iconClass} aria-hidden="true" />}
@@ -58,14 +58,17 @@ export function BuildingWithAISection({ onSelectCaseStudy }: BuildingWithAISecti
   const [interactiveStatic, setInteractiveStatic] = useState(false);
 
   return (
-    <section id="ai-builds" className="py-16 sm:py-24 border-t border-[#EFECE6] bg-white scroll-mt-20">
+    <section
+      id="ai-builds"
+      className="py-16 sm:py-24 border-t border-[var(--hairline)] bg-[var(--surface)] scroll-mt-20 transition-colors duration-200"
+    >
       <div className="max-w-[1160px] mx-auto px-5 sm:px-8">
         <div className="flex flex-wrap items-center justify-between gap-4 sm:gap-6 mb-14 sm:mb-18">
           <div className="space-y-2">
-            <h2 className="font-display text-[2.2rem] sm:text-[2.85rem] font-bold tracking-[-0.03em] text-[#151413] leading-none">
+            <h2 className="font-display text-[2.2rem] sm:text-[2.85rem] font-bold tracking-[-0.03em] text-[var(--primary)] leading-none">
               Building with AI
             </h2>
-            <p className="text-[15px] text-[#625E59]">
+            <p className="text-[15px] text-[var(--secondary)]">
               Applied AI products, clean mobility tools, and interactive creative workspaces.
             </p>
           </div>
@@ -95,7 +98,7 @@ export function BuildingWithAISection({ onSelectCaseStudy }: BuildingWithAISecti
                     scaleOnHover={1.012}
                     glare={!showInteractive}
                   >
-                    <div className="rounded-[22px] overflow-hidden bg-[#0B0D12] shadow-[0_24px_54px_rgba(15,23,42,0.13)] border border-[#E7E5E0]">
+                    <div className="rounded-[22px] overflow-hidden bg-[#120D0B] shadow-[0_24px_54px_rgba(43,27,21,0.14)] dark:shadow-[0_26px_58px_rgba(0,0,0,0.48)] border border-[var(--hairline)]">
                       {item.id === 'static' && interactiveStatic ? (
                         <StaticPreview />
                       ) : !failedImages[item.id] && item.image ? (
@@ -131,25 +134,25 @@ export function BuildingWithAISection({ onSelectCaseStudy }: BuildingWithAISecti
                       bg={item.iconBg}
                       title={item.title}
                     />
-                    <div className="text-xs font-medium text-[#736E68]">
+                    <div className="text-xs font-medium text-[var(--secondary)]">
                       <span>{item.eventLabel}</span>
                       <span className="mx-1.5" aria-hidden="true">·</span>
                       <span>{item.tagline}</span>
                     </div>
                   </div>
 
-                  <h3 className="font-display text-[1.75rem] sm:text-[2.1rem] font-bold tracking-[-0.025em] leading-[1.15] text-[#151413] [text-wrap:balance]">
+                  <h3 className="font-display text-[1.75rem] sm:text-[2.1rem] font-bold tracking-[-0.025em] leading-[1.15] text-[var(--primary)] [text-wrap:balance]">
                     {item.title}
                   </h3>
 
-                  <p className="text-[15.5px] sm:text-[16.5px] leading-[1.68] text-[#57534E]">
+                  <p className="text-[15.5px] sm:text-[16.5px] leading-[1.68] text-[var(--secondary)]">
                     {item.description}
                   </p>
 
                   <ul className="space-y-2.5 pt-1">
                     {item.highlights.map((hl) => (
-                      <li key={hl} className="flex items-start gap-2.5 text-[14.5px] sm:text-[15px] text-[#3F3C38]">
-                        <CheckCircle2 className="w-4 h-4 text-[#A8A29E] shrink-0 mt-1" aria-hidden="true" />
+                      <li key={hl} className="flex items-start gap-2.5 text-[14.5px] sm:text-[15px] text-[var(--secondary)]">
+                        <CheckCircle2 className="w-4 h-4 text-[var(--accent)] shrink-0 mt-1" aria-hidden="true" />
                         <span>{hl}</span>
                       </li>
                     ))}
@@ -160,7 +163,7 @@ export function BuildingWithAISection({ onSelectCaseStudy }: BuildingWithAISecti
                       href={item.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#151413] hover:bg-[#7A1C24] text-white text-sm font-medium transition-colors whitespace-nowrap shrink-0"
+                      className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[var(--primary)] hover:bg-[var(--accent)] text-[var(--base)] hover:text-white dark:hover:text-[#160F0C] text-sm font-medium transition-colors whitespace-nowrap shrink-0"
                     >
                       <span>Launch app</span>
                       <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
@@ -170,7 +173,7 @@ export function BuildingWithAISection({ onSelectCaseStudy }: BuildingWithAISecti
                       href={item.repoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-[#57534E] hover:text-[#151413] transition-colors whitespace-nowrap shrink-0"
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--secondary)] hover:text-[var(--primary)] transition-colors whitespace-nowrap shrink-0"
                     >
                       <GitHubMark className="w-4 h-4" />
                       <span>Source</span>
@@ -180,7 +183,7 @@ export function BuildingWithAISection({ onSelectCaseStudy }: BuildingWithAISecti
                       <button
                         type="button"
                         onClick={() => onSelectCaseStudy(linkedCaseStudy)}
-                        className="inline-flex items-center gap-1 text-sm font-medium text-[#7A1C24] hover:text-[#5E131A] underline underline-offset-4 decoration-[#7A1C24]/30 transition-colors cursor-pointer whitespace-nowrap shrink-0"
+                        className="inline-flex items-center gap-1 text-sm font-medium text-[var(--accent)] hover:text-[var(--accent-hover)] underline underline-offset-4 decoration-[var(--accent)]/35 transition-colors cursor-pointer whitespace-nowrap shrink-0"
                       >
                         <span>Architecture page</span>
                         <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
@@ -191,7 +194,7 @@ export function BuildingWithAISection({ onSelectCaseStudy }: BuildingWithAISecti
                       <button
                         type="button"
                         onClick={() => setInteractiveStatic((prev) => !prev)}
-                        className="text-sm font-medium text-[#16A34A] hover:underline underline-offset-4 cursor-pointer whitespace-nowrap shrink-0"
+                        className="text-sm font-medium text-[#5E9E6D] hover:underline underline-offset-4 cursor-pointer whitespace-nowrap shrink-0"
                       >
                         {interactiveStatic ? 'Show official shot' : 'Try interactive planner'}
                       </button>

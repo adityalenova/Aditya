@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <linearGradient id="bhLeft" x1="18" y1="22" x2="66" y2="96" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="55%" stop-color="#0EA5E9"/>
+      <stop offset="100%" stop-color="#2563EB"/>
+    </linearGradient>
+    <linearGradient id="bhRight" x1="56" y1="24" x2="108" y2="96" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="55%" stop-color="#22C55E"/>
+      <stop offset="100%" stop-color="#A3E635"/>
+    </linearGradient>
+    <mask id="bhMask">
+      <rect width="128" height="128" fill="#FFFFFF"/>
+      <!-- Clean diagonal split -->
+      <path d="M62 29 L43 58" stroke="#000000" stroke-width="5" stroke-linecap="round"/>
+      <!-- Athlete head -->
+      <circle cx="67" cy="47" r="7.5" fill="#000000"/>
+      <!-- Athlete torso + flexed arm arching cleanly inside the heart -->
+      <path
+        d="M41 80 C50 67 60 61 72 60 C77 59.5 82 57 86 52 C89 48 88 42 84 39 C81 37 84 32 88 34 C96 38 98 49 92 58 C86 66 78 69 72 70 L65 103 L52 96 L58 75 C52 76 47 80 41 80 Z"
+        fill="#000000"
+      />
+    </mask>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="#0D1117"/>
+  <g mask="url(#bhMask)">
+    <!-- Left blue lobe -->
+    <path
+      d="M64 106 C64 106 18 78 18 46 C18 30 31 18 46.5 18 C55 18 61.5 23 64 28.5 L42 63 C50 78 64 106 64 106 Z"
+      fill="url(#bhLeft)"
+    />
+    <!-- Right vibrant emerald-lime lobe -->
+    <path
+      d="M64 28.5 C66.5 23 73 18 81.5 18 C97 18 110 30 110 46 C110 78 64 106 64 106 C56 91 48 75 42 63 L64 28.5 Z"
+      fill="url(#bhRight)"
+    />
+  </g>
+</svg>

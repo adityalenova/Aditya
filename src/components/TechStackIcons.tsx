@@ -121,7 +121,7 @@ export function TechStackDock() {
   return (
     <div className="pt-2">
       <div className="flex flex-wrap items-baseline justify-between gap-2 mb-3.5 min-h-[22px]">
-        <span className="text-sm font-medium text-[#5C5853]">My builder stack</span>
+        <span className="text-sm font-medium text-[var(--secondary)]">My builder stack</span>
         <AnimatePresence mode="wait">
           <motion.span
             key={activeTool.id}
@@ -129,10 +129,10 @@ export function TechStackDock() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.14 }}
-            className="text-xs text-[#736E68] truncate max-w-full sm:max-w-[360px]"
+            className="text-xs text-[var(--secondary)] truncate max-w-full sm:max-w-[360px]"
           >
-            <strong className="font-semibold text-[#7A1C24]">{activeTool.name}</strong>
-            <span className="mx-1.5 text-[#C6C2BC]" aria-hidden="true">·</span>
+            <strong className="font-semibold text-[var(--accent)]">{activeTool.name}</strong>
+            <span className="mx-1.5 text-[var(--muted)]" aria-hidden="true">·</span>
             <span>{activeTool.role}</span>
           </motion.span>
         </AnimatePresence>
@@ -152,10 +152,10 @@ export function TechStackDock() {
               onFocus={() => setActiveTool(tool)}
               onClick={() => setActiveTool(tool)}
               aria-label={`${tool.name}: ${tool.role}`}
-              className={`group relative w-11 h-11 rounded-full flex items-center justify-center bg-white text-[#151413] border transition-colors duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A1C24] ${
+              className={`group relative w-11 h-11 rounded-full flex items-center justify-center bg-[var(--surface)] text-[var(--primary)] border transition-colors duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
                 isActive
-                  ? 'border-[#7A1C24] shadow-[0_8px_18px_rgba(122,28,36,0.16)]'
-                  : 'border-[#E6E3DD] hover:border-[#C5C0B8] shadow-xs'
+                  ? 'border-[var(--accent)] shadow-[0_8px_18px_var(--accent-soft)]'
+                  : 'border-[var(--hairline)] hover:border-[var(--muted)] shadow-xs'
               }`}
             >
               <BrandGlyph id={tool.id} />

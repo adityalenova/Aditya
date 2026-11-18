@@ -1,89 +1,26 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import {
   ArrowUpRight,
   ChevronLeft,
   ChevronRight,
-  Gauge,
+  Expand,
   Moon,
   Pause,
   Play,
+  Shuffle,
   Sparkles,
   Sun,
   X,
 } from 'lucide-react';
-import {
-  FOOTER_MEADOW_URL,
-  HERO_AVATAR_URL,
-  HERO_CHARACTER_URL,
-  HERO_FULLBODY_URL,
-  OUT_OF_FRAME_ITEMS,
-  PLAYGROUND_CARDS,
-  PlaygroundCard,
-} from '../data/portfolioData';
+import type { ThemeMode } from '../App';
+import { PLAYGROUND_CARDS, PlaygroundCard } from '../data/portfolioData';
 
 interface CreativePlaygroundSectionProps {
   onJumpToContact: () => void;
+  theme: ThemeMode;
+  onToggleTheme: () => void;
 }
-
-const ORBITAL_BUBBLES = [
-  {
-    id: 'orb-1',
-    image: HERO_AVATAR_URL,
-    alt: 'Aditya with kitten portrait',
-    posClass: 'hidden md:block top-[11%] left-[6%] lg:left-[12%] w-20 h-20 lg:w-24 lg:h-24',
-    delay: 0,
-  },
-  {
-    id: 'orb-2',
-    image: OUT_OF_FRAME_ITEMS[0].image,
-    alt: 'Sneaker collection craft',
-    posClass: 'hidden lg:block top-[5%] left-[27%] w-20 h-20',
-    delay: 0.4,
-  },
-  {
-    id: 'orb-3',
-    image: HERO_CHARACTER_URL,
-    alt: 'Aditya builder portrait',
-    posClass: 'hidden md:block top-[3%] left-1/2 -translate-x-1/2 w-20 h-20',
-    delay: 0.8,
-  },
-  {
-    id: 'orb-4',
-    image: OUT_OF_FRAME_ITEMS[1].image,
-    alt: 'Audio & music studio',
-    posClass: 'hidden lg:block top-[6%] right-[27%] w-20 h-20',
-    delay: 1.1,
-  },
-  {
-    id: 'orb-5',
-    image: OUT_OF_FRAME_ITEMS[3].image,
-    alt: 'Creator studio setup',
-    posClass: 'hidden md:block top-[12%] right-[6%] lg:right-[12%] w-20 h-20 lg:w-24 lg:h-24',
-    delay: 0.6,
-  },
-  {
-    id: 'orb-6',
-    image: OUT_OF_FRAME_ITEMS[2].image,
-    alt: 'Video editing workstation',
-    posClass: 'hidden xl:block top-[42%] left-[2.5%] w-20 h-20',
-    delay: 1.4,
-  },
-  {
-    id: 'orb-7',
-    image: HERO_FULLBODY_URL,
-    alt: 'Aditya full-length sketch',
-    posClass: 'hidden xl:block top-[40%] right-[2.5%] w-20 h-20',
-    delay: 0.9,
-  },
-  {
-    id: 'orb-8',
-    image: FOOTER_MEADOW_URL,
-    alt: 'Studio desk illustration',
-    posClass: 'hidden xl:block bottom-[26%] right-[3.5%] w-16 h-16',
-    delay: 1.7,
-  },
-];
 
 const VIBE_TRACKS = [
   {
@@ -103,33 +40,69 @@ const VIBE_TRACKS = [
   },
 ];
 
-export function CreativePlaygroundSection({ onJumpToContact }: CreativePlaygroundSectionProps) {
-  const [isNightStudio, setIsNightStudio] = useState(true);
-  const [isPaused, setIsPaused] = useState(false);
-  const [fastSpeed, setFastSpeed] = useState(false);
+function getHostname(url: string) {
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return url.replace(/^https?:\/\//, '');
+  }
+}
+
+export function CreativePlaygroundSection({
+  onJumpToContact,
+  theme,
+  onToggleTheme,
+}: CreativePlaygroundSectionProps) {
+  const isDark = theme === 'dark';
   const [activeCategory, setActiveCategory] = useState<'All' | PlaygroundCard['category']>('All');
+  const [shuffledOrder, setShuffledOrder] = useState<string[]>(() =>
+    PLAYGROUND_CARDS.map((c) => c.id)
+  );
+  const [spotlightIndex, setSpotlightIndex] = useState(0);
+  const [autoPlay, setAutoPlay] = useState(false);
   const [selectedVibe, setSelectedVibe] = useState(VIBE_TRACKS[0].id);
   const [lightboxCard, setLightboxCard] = useState<PlaygroundCard | null>(null);
   const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
 
   const visibleCards = useMemo(() => {
+    const ordered = shuffledOrder
+      .map((id) => PLAYGROUND_CARDS.find((c) => c.id === id))
+      .filter((c): c is PlaygroundCard => Boolean(c));
     const filtered =
       activeCategory === 'All'
-        ? PLAYGROUND_CARDS
-        : PLAYGROUND_CARDS.filter((c) => c.category === activeCategory);
-    return filtered.length > 0 ? filtered : PLAYGROUND_CARDS;
-  }, [activeCategory]);
+        ? ordered
+        : ordered.filter((c) => c.category === activeCategory);
+    return filtered.length > 0 ? filtered : ordered;
+  }, [activeCategory, shuffledOrder]);
 
-  // Build 3 staggered rows with enough items to loop seamlessly across wide viewports
-  const rows = useMemo(() => {
-    const base = visibleCards;
-    const row1 = [...base, ...base];
-    const rotated2 = [...base.slice(3), ...base.slice(0, 3)];
-    const row2 = [...rotated2, ...rotated2];
-    const rotated3 = [...base.slice(5), ...base.slice(0, 5)];
-    const row3 = [...rotated3, ...rotated3];
-    return [row1, row2, row3];
-  }, [visibleCards]);
+  useEffect(() => {
+    setSpotlightIndex((prev) => (visibleCards.length > 0 ? prev % visibleCards.length : 0));
+  }, [visibleCards.length, activeCategory]);
+
+  useEffect(() => {
+    if (!autoPlay || lightboxCard || visibleCards.length <= 1) return;
+    const timer = window.setInterval(() => {
+      setSpotlightIndex((prev) => (prev + 1) % visibleCards.length);
+    }, 3600);
+    return () => window.clearInterval(timer);
+  }, [autoPlay, lightboxCard, visibleCards.length]);
+
+  const handleShuffle = () => {
+    setShuffledOrder((prev) => {
+      const copy = [...prev];
+      for (let i = copy.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    });
+    setSpotlightIndex(0);
+  };
+
+  const stepSpotlight = (delta: number) => {
+    if (visibleCards.length === 0) return;
+    setSpotlightIndex((prev) => (prev + delta + visibleCards.length) % visibleCards.length);
+  };
 
   const stepLightbox = (delta: number) => {
     if (!lightboxCard || visibleCards.length === 0) return;
@@ -150,191 +123,81 @@ export function CreativePlaygroundSection({ onJumpToContact }: CreativePlaygroun
     return () => window.removeEventListener('keydown', onKey);
   }, [lightboxCard, visibleCards]);
 
+  const activeSpotlight = visibleCards[spotlightIndex] || visibleCards[0];
   const currentVibe = VIBE_TRACKS.find((v) => v.id === selectedVibe) || VIBE_TRACKS[0];
 
-  const rowDurations = fastSpeed ? ['22s', '26s', '20s'] : ['36s', '42s', '34s'];
+  const markFailed = (id: string) => {
+    setFailedImages((prev) => ({ ...prev, [id]: true }));
+  };
 
   return (
     <section
       id="playground"
-      className={`relative py-20 sm:py-28 border-t scroll-mt-20 overflow-hidden transition-colors duration-300 ${
-        isNightStudio
-          ? 'playground-grid-night border-[#13296B] text-white'
-          : 'playground-grid-day border-[#E7E2D8] text-[#151413]'
-      }`}
+      className="relative py-16 sm:py-24 border-t border-[var(--hairline)] contribo-grid text-[var(--primary)] scroll-mt-20 overflow-hidden transition-colors duration-200"
     >
-      {/* Floating Orbital Portrait & Studio Circles (Inspired by Showcase Arc Layout) */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        {ORBITAL_BUBBLES.map((bubble) => (
-          <motion.div
-            key={bubble.id}
-            animate={{ y: [0, -9, 0] }}
-            transition={{
-              duration: 5.5 + bubble.delay,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: bubble.delay,
-            }}
-            className={`absolute rounded-full overflow-hidden border-2 shadow-[0_14px_34px_rgba(0,0,0,0.32)] ${
-              isNightStudio ? 'border-white/25 bg-[#091B57]' : 'border-white bg-white'
-            } ${bubble.posClass}`}
-          >
-            <img
-              src={bubble.image}
-              alt={bubble.alt}
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover object-top"
-            />
-          </motion.div>
-        ))}
-      </div>
-
-      <div className="relative z-10 max-w-[1180px] mx-auto px-5 sm:px-8">
-        {/* Top Atmosphere Switcher */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-10 sm:pb-14">
-          <div
-            className={`flex items-center gap-2 text-xs tracking-[0.14em] ${
-              isNightStudio ? 'text-white/80 font-medium' : 'text-[#625E59]'
-            }`}
-          >
-            <Moon className={`w-4 h-4 ${isNightStudio ? 'text-[#D9F959]' : 'text-[#8C8780]'}`} aria-hidden="true" />
-            <span>THE NIGHT IS MY STUDIO</span>
+      <div className="relative z-10 max-w-[1160px] mx-auto px-5 sm:px-8">
+        {/* Top Studio Bar + Synced Light/Dark Theme Switch */}
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-8 sm:pb-10">
+          <div className="text-xs font-mono uppercase tracking-[0.14em] text-[var(--accent)] font-semibold">
+            Playground Studio · Spotlight Deck
           </div>
 
           <div
-            className={`inline-flex items-center p-1 rounded-full border backdrop-blur-sm ${
-              isNightStudio ? 'bg-[#040E34]/80 border-white/15' : 'bg-white/90 border-[#DEDAD2]'
-            }`}
+            className="inline-flex items-center p-1 rounded-full bg-[var(--surface)] border border-[var(--hairline)] shadow-xs"
             role="group"
-            aria-label="Playground studio atmosphere switcher"
+            aria-label="Sync portfolio light and dark theme"
           >
             <button
               type="button"
-              onClick={() => setIsNightStudio(true)}
-              aria-pressed={isNightStudio}
-              className={`px-5 py-1.5 rounded-full text-xs font-semibold tracking-[0.08em] transition-all cursor-pointer whitespace-nowrap shrink-0 ${
-                isNightStudio ? 'bg-[#D9F959] text-[#05123D] shadow-sm' : 'text-[#625E59] hover:text-[#151413]'
+              onClick={() => {
+                if (isDark) onToggleTheme();
+              }}
+              aria-pressed={!isDark}
+              className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap shrink-0 transition-colors cursor-pointer ${
+                !isDark
+                  ? 'bg-[var(--primary)] text-[var(--base)] shadow-xs'
+                  : 'text-[var(--secondary)] hover:text-[var(--primary)]'
               }`}
             >
-              NIGHT
+              <Sun className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>Light</span>
             </button>
             <button
               type="button"
-              onClick={() => setIsNightStudio(false)}
-              aria-pressed={!isNightStudio}
-              className={`px-5 py-1.5 rounded-full text-xs font-semibold tracking-[0.08em] transition-all cursor-pointer whitespace-nowrap shrink-0 ${
-                !isNightStudio ? 'bg-[#151413] text-white shadow-sm' : 'text-white/75 hover:text-white'
+              onClick={() => {
+                if (!isDark) onToggleTheme();
+              }}
+              aria-pressed={isDark}
+              className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap shrink-0 transition-colors cursor-pointer ${
+                isDark
+                  ? 'bg-[var(--accent)] text-[#160F0C] font-semibold shadow-xs'
+                  : 'text-[var(--secondary)] hover:text-[var(--primary)]'
               }`}
             >
-              DAY
+              <Moon className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>Dark</span>
             </button>
-          </div>
-
-          <div
-            className={`flex items-center gap-2 text-xs tracking-[0.14em] ${
-              !isNightStudio ? 'text-[#151413] font-medium' : 'text-white/60'
-            }`}
-          >
-            <Sun className={`w-4 h-4 ${!isNightStudio ? 'text-[#D97706]' : 'text-[#FBBF24]'}`} aria-hidden="true" />
-            <span>DAYLIGHT BRINGS IDEAS TO REALITY</span>
           </div>
         </div>
 
-        {/* Centerpiece Header Right Above the Moving Marquee Container */}
-        <div className="text-center max-w-2xl mx-auto pt-4 sm:pt-8 pb-7 sm:pb-9 space-y-2.5">
-          <h2
-            className={`font-display text-[2.45rem] sm:text-[3.5rem] font-bold tracking-[-0.035em] leading-none ${
-              isNightStudio ? 'text-[#D9F959]' : 'text-[#7A1C24]'
-            }`}
-          >
-            Creative Playground
+        {/* Section Heading */}
+        <div className="text-center max-w-2xl mx-auto space-y-3 pb-8 sm:pb-10">
+          <h2 className="font-display text-[2.4rem] sm:text-[3.4rem] font-bold tracking-[-0.035em] leading-none text-[var(--primary)]">
+            Creative <span className="text-[var(--accent)]">Playground</span>
           </h2>
-          <p className={`text-sm sm:text-[15.5px] ${isNightStudio ? 'text-[#C7D4FF]' : 'text-[#57534E]'}`}>
-            Look at what&rsquo;s shipping live — moving templates straight from my deployments. Hover to pause or click any frame.
+          <p className="text-sm sm:text-[15.5px] text-[var(--secondary)] leading-relaxed">
+            Browse shipped deployments in the interactive Spotlight Deck — filter tracks, shuffle the sequence, or click any frame to inspect up close.
           </p>
         </div>
 
-        {/* Translucent Rounded Marquee Box with Soft Left/Right Edge Fades (Matching Uploaded Reference) */}
-        <div
-          className={`max-w-[960px] mx-auto rounded-[24px] border p-4 sm:p-6 transition-colors ${
-            isNightStudio
-              ? 'bg-[#040D2E]/82 border-white/12 shadow-[0_28px_80px_rgba(2,7,26,0.62)] backdrop-blur-md'
-              : 'bg-white/88 border-[#E2DDD4] shadow-[0_24px_64px_rgba(21,20,19,0.1)] backdrop-blur-md'
-          }`}
-        >
-          <div className="space-y-4 sm:space-y-5 overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_10%,black_90%,transparent_100%)]">
-            {rows.map((rowCards, rowIndex) => {
-              const isReverse = rowIndex === 1;
-              return (
-                <div key={rowIndex} className="marquee-row overflow-hidden py-1">
-                  <div
-                    className={`flex w-max gap-4 sm:gap-5 ${
-                      isReverse ? 'animate-marquee-right' : 'animate-marquee-left'
-                    } ${isPaused ? 'marquee-paused' : ''}`}
-                    style={{ '--marquee-duration': rowDurations[rowIndex] } as React.CSSProperties}
-                  >
-                    {rowCards.map((card, cardIdx) => (
-                      <button
-                        key={`${card.id}-r${rowIndex}-${cardIdx}`}
-                        type="button"
-                        onClick={() => setLightboxCard(card)}
-                        className={`group relative w-[200px] sm:w-[238px] shrink-0 rounded-2xl overflow-hidden border text-left transition-all duration-300 hover:-translate-y-1 hover:scale-[1.03] cursor-pointer ${
-                          isNightStudio
-                            ? 'bg-[#0A1847] border-white/14 hover:border-[#D9F959]/75 shadow-[0_12px_28px_rgba(0,0,0,0.35)]'
-                            : 'bg-white border-[#E4E0D8] hover:border-[#7A1C24]/60 shadow-[0_10px_24px_rgba(21,20,19,0.08)]'
-                        }`}
-                      >
-                        <div className="aspect-[19/10] w-full overflow-hidden bg-[#080F29]">
-                          {!failedImages[card.id] ? (
-                            <img
-                              src={card.image}
-                              alt={card.title}
-                              referrerPolicy="no-referrer"
-                              onError={() => setFailedImages((prev) => ({ ...prev, [card.id]: true }))}
-                              className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.05]"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-xs text-white/75 p-3 text-center">
-                              {card.title}
-                            </div>
-                          )}
-                        </div>
-                        <div className="px-3 py-2 flex items-center justify-between gap-2">
-                          <div className="min-w-0">
-                            <div
-                              className={`text-[11.5px] font-semibold truncate ${
-                                isNightStudio ? 'text-white' : 'text-[#151413]'
-                              }`}
-                            >
-                              {card.title}
-                            </div>
-                            <div
-                              className={`text-[10px] truncate ${
-                                isNightStudio ? 'text-[#9EB2F0]' : 'text-[#625E59]'
-                              }`}
-                            >
-                              {card.subtitle}
-                            </div>
-                          </div>
-                          <ArrowUpRight
-                            className={`w-3.5 h-3.5 shrink-0 opacity-70 group-hover:opacity-100 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${
-                              isNightStudio ? 'text-[#D9F959]' : 'text-[#7A1C24]'
-                            }`}
-                            aria-hidden="true"
-                          />
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Interactive Marquee Controls Bar */}
-        <div className="max-w-[960px] mx-auto mt-6 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-1.5" role="tablist" aria-label="Filter moving templates">
+        {/* Spotlight Deck Controls Toolbar */}
+        <div className="rounded-2xl bg-[var(--surface)] border border-[var(--hairline)] p-3 sm:p-4 mb-6 shadow-[0_10px_28px_rgba(43,27,21,0.04)] dark:shadow-[0_14px_34px_rgba(0,0,0,0.3)] flex flex-wrap items-center justify-between gap-3">
+          {/* Category Filters */}
+          <div
+            className="inline-flex items-center gap-1 p-1 rounded-xl bg-[var(--surface-raised)] border border-[var(--hairline)]"
+            role="tablist"
+            aria-label="Filter playground deployments"
+          >
             {(['All', 'AI Products', 'Flagships'] as const).map((cat) => {
               const active = activeCategory === cat;
               return (
@@ -344,14 +207,10 @@ export function CreativePlaygroundSection({ onJumpToContact }: CreativePlaygroun
                   role="tab"
                   aria-selected={active}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap shrink-0 transition-colors cursor-pointer ${
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap shrink-0 transition-colors cursor-pointer ${
                     active
-                      ? isNightStudio
-                        ? 'bg-[#D9F959] text-[#05123D] font-semibold'
-                        : 'bg-[#7A1C24] text-white'
-                      : isNightStudio
-                        ? 'bg-[#040E34]/75 border border-white/12 text-[#C7D4FF] hover:text-white'
-                        : 'bg-white border border-[#DEDAD2] text-[#57534E] hover:text-[#151413]'
+                      ? 'bg-[var(--accent)] text-white dark:text-[#160F0C] font-semibold shadow-xs'
+                      : 'text-[var(--secondary)] hover:text-[var(--primary)]'
                   }`}
                 >
                   {cat}
@@ -360,104 +219,243 @@ export function CreativePlaygroundSection({ onJumpToContact }: CreativePlaygroun
             })}
           </div>
 
+          {/* Deck Controls: Auto-Cycle + Shuffle */}
           <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
-              onClick={() => setIsPaused((p) => !p)}
-              className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-medium border transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
-                isNightStudio
-                  ? 'bg-[#040E34]/85 border-white/15 text-white hover:border-[#D9F959]/60'
-                  : 'bg-white border-[#DEDAD2] text-[#151413] hover:bg-[#FAF9F7]'
+              onClick={() => setAutoPlay((p) => !p)}
+              aria-pressed={autoPlay}
+              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border text-xs font-medium transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
+                autoPlay
+                  ? 'bg-[var(--accent-soft)] border-[var(--accent)] text-[var(--accent)] font-semibold'
+                  : 'bg-[var(--surface-raised)] hover:bg-[var(--accent-soft)] border-[var(--hairline)] text-[var(--primary)]'
               }`}
             >
-              {isPaused ? <Play className="w-3.5 h-3.5 text-[#D9F959]" aria-hidden="true" /> : <Pause className="w-3.5 h-3.5" aria-hidden="true" />}
-              <span>{isPaused ? 'Resume flow' : 'Pause flow'}</span>
+              {autoPlay ? <Pause className="w-3.5 h-3.5" aria-hidden="true" /> : <Play className="w-3.5 h-3.5 text-[var(--accent)]" aria-hidden="true" />}
+              <span>{autoPlay ? 'Auto-Cycle: On' : 'Auto-Cycle'}</span>
             </button>
 
             <button
               type="button"
-              onClick={() => setFastSpeed((f) => !f)}
-              className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-medium border transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
-                isNightStudio
-                  ? 'bg-[#040E34]/85 border-white/15 text-white hover:border-[#D9F959]/60'
-                  : 'bg-white border-[#DEDAD2] text-[#151413] hover:bg-[#FAF9F7]'
-              }`}
+              onClick={handleShuffle}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[var(--surface-raised)] hover:bg-[var(--accent-soft)] border border-[var(--hairline)] hover:border-[var(--accent)]/40 text-xs font-medium text-[var(--primary)] transition-colors cursor-pointer whitespace-nowrap shrink-0"
             >
-              <Gauge className="w-3.5 h-3.5 text-[#D9F959]" aria-hidden="true" />
-              <span>Speed: {fastSpeed ? 'Brisk' : 'Smooth'}</span>
+              <Shuffle className="w-3.5 h-3.5 text-[var(--accent)]" aria-hidden="true" />
+              <span>Shuffle Deck</span>
             </button>
           </div>
         </div>
 
-        {/* Bottom Interactive Philosophy Card */}
-        <div
-          className={`max-w-[960px] mx-auto mt-10 sm:mt-14 rounded-[24px] border p-6 sm:p-9 transition-colors ${
-            isNightStudio
-              ? 'bg-[#040D2E]/88 border-white/12 text-white'
-              : 'bg-white/95 border-[#E2DDD4] text-[#151413] shadow-[0_18px_48px_rgba(21,20,19,0.06)]'
-          }`}
-        >
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="space-y-3 flex-1">
-              <div className="font-display text-lg sm:text-2xl font-bold tracking-tight">
-                NO MAP. JUST VIBES.{' '}
-                <span className={isNightStudio ? 'text-[#D9F959]' : 'text-[#7A1C24]'}>LET&rsquo;S SHIP.</span>
+        {/* SPOTLIGHT DECK VIEWPORT */}
+        {activeSpotlight && (
+          <div className="space-y-5">
+            <div className="rounded-[24px] bg-[var(--surface)] border border-[var(--hairline)] overflow-hidden shadow-[0_22px_56px_rgba(43,27,21,0.08)] dark:shadow-[0_26px_64px_rgba(0,0,0,0.48)]">
+              {/* Spotlight Browser Chrome Header */}
+              <div className="px-5 py-3.5 bg-[var(--surface-raised)] border-b border-[var(--hairline)] flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="hidden sm:flex items-center gap-1.5 shrink-0" aria-hidden="true">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F]" />
+                  </div>
+                  <span className="font-mono text-xs font-semibold text-[var(--accent)] tabular-nums shrink-0">
+                    {String(spotlightIndex + 1).padStart(2, '0')} /{' '}
+                    {String(visibleCards.length).padStart(2, '0')}
+                  </span>
+                  <span className="text-sm font-display font-bold text-[var(--primary)] truncate">
+                    {activeSpotlight.title}
+                  </span>
+                  <span className="hidden md:inline text-xs font-mono text-[var(--muted)] truncate">
+                    · {getHostname(activeSpotlight.url)}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => stepSpotlight(-1)}
+                    aria-label="Previous spotlight project"
+                    className="w-8 h-8 rounded-lg bg-[var(--surface)] border border-[var(--hairline)] hover:border-[var(--accent)] flex items-center justify-center text-[var(--primary)] cursor-pointer transition-colors"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => stepSpotlight(1)}
+                    aria-label="Next spotlight project"
+                    className="w-8 h-8 rounded-lg bg-[var(--surface)] border border-[var(--hairline)] hover:border-[var(--accent)] flex items-center justify-center text-[var(--primary)] cursor-pointer transition-colors"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setLightboxCard(activeSpotlight)}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[var(--surface)] border border-[var(--hairline)] hover:border-[var(--accent)] text-xs font-medium text-[var(--primary)] cursor-pointer whitespace-nowrap shrink-0 transition-colors"
+                  >
+                    <Expand className="w-3.5 h-3.5 text-[var(--accent)]" aria-hidden="true" />
+                    <span>Expand</span>
+                  </button>
+                  <a
+                    href={activeSpotlight.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white dark:text-[#160F0C] text-xs font-semibold whitespace-nowrap shrink-0 transition-colors"
+                  >
+                    <span>Visit Live</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+                  </a>
+                </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-2">
-                {VIBE_TRACKS.map((track) => {
-                  const active = selectedVibe === track.id;
-                  return (
-                    <button
-                      key={track.id}
-                      type="button"
-                      onClick={() => setSelectedVibe(track.id)}
-                      className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
-                        active
-                          ? isNightStudio
-                            ? 'bg-[#D9F959] text-[#05123D] font-semibold'
-                            : 'bg-[#7A1C24] text-white'
-                          : isNightStudio
-                            ? 'bg-white/8 text-[#C7D4FF] hover:bg-white/14'
-                            : 'bg-[#FAF9F7] text-[#57534E] border border-[#E2DFD7] hover:text-[#151413]'
-                      }`}
-                    >
-                      <Sparkles className="w-3 h-3" aria-hidden="true" />
-                      <span>{track.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
+              {/* Main Spotlight Image Canvas */}
+              <div
+                onClick={() => setLightboxCard(activeSpotlight)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setLightboxCard(activeSpotlight);
+                  }
+                }}
+                aria-label={`Inspect ${activeSpotlight.title} fullscreen`}
+                className="relative aspect-[19/10] w-full bg-[#120D0B] overflow-hidden cursor-pointer group"
+              >
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeSpotlight.id}
+                    initial={{ opacity: 0, scale: 0.99 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.99 }}
+                    transition={{ duration: 0.25 }}
+                    className="w-full h-full"
+                  >
+                    {!failedImages[activeSpotlight.id] ? (
+                      <img
+                        src={activeSpotlight.image}
+                        alt={activeSpotlight.title}
+                        referrerPolicy="no-referrer"
+                        onError={() => markFailed(activeSpotlight.id)}
+                        className="w-full h-full object-cover object-top"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-white text-sm">
+                        {activeSpotlight.title}
+                      </div>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
 
-              <p className={`text-xs sm:text-sm max-w-xl ${isNightStudio ? 'text-[#B4C3F5]' : 'text-[#57534E]'}`}>
-                {currentVibe.note}
-              </p>
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-5 py-4 flex items-end justify-between gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <div className="text-white">
+                    <div className="font-display font-bold text-base">{activeSpotlight.title}</div>
+                    <div className="text-xs text-white/80">{activeSpotlight.subtitle}</div>
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--surface)] text-[var(--primary)] border border-[var(--hairline)] text-xs font-semibold shadow-md">
+                    <Expand className="w-3.5 h-3.5 text-[var(--accent)]" aria-hidden="true" />
+                    <span>Inspect Fullscreen</span>
+                  </span>
+                </div>
+              </div>
             </div>
 
-            <button
-              type="button"
-              onClick={onJumpToContact}
-              className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-colors cursor-pointer self-start md:self-center whitespace-nowrap shrink-0 ${
-                isNightStudio
-                  ? 'bg-[#D9F959] hover:bg-white text-[#05123D]'
-                  : 'bg-[#151413] hover:bg-[#7A1C24] text-white'
-              }`}
-            >
-              <span>Start a project</span>
-              <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
-            </button>
+            {/* Thumbnail Selector Rail */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5">
+              {visibleCards.map((card, idx) => {
+                const isSelected = idx === spotlightIndex;
+                return (
+                  <button
+                    key={card.id}
+                    type="button"
+                    onClick={() => setSpotlightIndex(idx)}
+                    className={`group rounded-xl overflow-hidden bg-[var(--surface)] border text-left transition-all cursor-pointer ${
+                      isSelected
+                        ? 'border-[var(--accent)] ring-2 ring-[var(--accent)]/30 shadow-sm -translate-y-0.5'
+                        : 'border-[var(--hairline)] opacity-75 hover:opacity-100'
+                    }`}
+                  >
+                    <div className="aspect-[19/10] w-full overflow-hidden bg-[#120D0B]">
+                      {!failedImages[card.id] ? (
+                        <img
+                          src={card.image}
+                          alt={card.title}
+                          referrerPolicy="no-referrer"
+                          onError={() => markFailed(card.id)}
+                          className="w-full h-full object-cover object-top"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-[10px] text-white/75 p-1">
+                          {card.title}
+                        </div>
+                      )}
+                    </div>
+                    <div className="px-2 py-1.5 text-[11px] font-medium text-[var(--primary)] truncate">
+                      {card.title}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Fluted Ribbed Philosophy Launcher */}
+        <div className="mt-10 sm:mt-14 fluted-contribo rounded-[28px] p-3 sm:p-4 border border-[var(--hairline)]">
+          <div className="rounded-[22px] bg-[var(--surface)] border border-[var(--hairline)] p-6 sm:p-9 shadow-[0_14px_34px_rgba(43,27,21,0.06)] dark:shadow-[0_18px_40px_rgba(0,0,0,0.45)]">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="space-y-3.5 flex-1">
+                <div className="font-display text-lg sm:text-2xl font-bold tracking-tight text-[var(--primary)]">
+                  NO MAP. JUST VIBES.{' '}
+                  <span className="text-[var(--accent)]">LET&rsquo;S SHIP.</span>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  {VIBE_TRACKS.map((track) => {
+                    const active = selectedVibe === track.id;
+                    return (
+                      <button
+                        key={track.id}
+                        type="button"
+                        onClick={() => setSelectedVibe(track.id)}
+                        className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
+                          active
+                            ? 'bg-[var(--accent)] text-white dark:text-[#160F0C] font-semibold shadow-xs'
+                            : 'bg-[var(--surface-raised)] text-[var(--secondary)] border border-[var(--hairline)] hover:text-[var(--primary)]'
+                        }`}
+                      >
+                        <Sparkles className="w-3 h-3" aria-hidden="true" />
+                        <span>{track.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <p className="text-xs sm:text-sm max-w-xl text-[var(--secondary)] leading-relaxed">
+                  {currentVibe.note}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={onJumpToContact}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--primary)] hover:bg-[var(--accent)] text-[var(--base)] hover:text-white dark:hover:text-[#160F0C] text-sm font-semibold transition-colors cursor-pointer self-start md:self-center whitespace-nowrap shrink-0 shadow-sm"
+              >
+                <span>Start a project</span>
+                <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* High-Res Template Lightbox Modal */}
+      {/* Contribo Lightbox Modal */}
       <AnimatePresence>
         {lightboxCard && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/82 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8"
+            className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8"
             onClick={() => setLightboxCard(null)}
             role="dialog"
             aria-modal="true"
@@ -467,19 +465,23 @@ export function CreativePlaygroundSection({ onJumpToContact }: CreativePlaygroun
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.96, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-[920px] rounded-2xl bg-[#0B1740] border border-white/15 overflow-hidden shadow-2xl"
+              className="w-full max-w-[920px] rounded-2xl bg-[var(--surface)] border border-[var(--hairline)] overflow-hidden shadow-2xl"
             >
-              <div className="px-5 py-4 border-b border-white/10 flex items-center justify-between gap-4">
+              <div className="px-5 py-4 bg-[var(--surface-raised)] border-b border-[var(--hairline)] flex items-center justify-between gap-4">
                 <div className="min-w-0">
-                  <div className="font-display font-semibold text-white truncate">{lightboxCard.title}</div>
-                  <div className="text-xs text-[#B4C3F5] truncate">{lightboxCard.subtitle}</div>
+                  <div className="font-display font-bold text-[var(--primary)] truncate">
+                    {lightboxCard.title}
+                  </div>
+                  <div className="text-xs text-[var(--secondary)] truncate">
+                    {lightboxCard.subtitle}
+                  </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   <button
                     type="button"
                     onClick={() => stepLightbox(-1)}
                     aria-label="Previous screenshot"
-                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white cursor-pointer"
+                    className="w-8 h-8 rounded-full bg-[var(--surface)] border border-[var(--hairline)] hover:border-[var(--accent)] flex items-center justify-center text-[var(--primary)] cursor-pointer transition-colors"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
@@ -487,7 +489,7 @@ export function CreativePlaygroundSection({ onJumpToContact }: CreativePlaygroun
                     type="button"
                     onClick={() => stepLightbox(1)}
                     aria-label="Next screenshot"
-                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white cursor-pointer"
+                    className="w-8 h-8 rounded-full bg-[var(--surface)] border border-[var(--hairline)] hover:border-[var(--accent)] flex items-center justify-center text-[var(--primary)] cursor-pointer transition-colors"
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -495,7 +497,7 @@ export function CreativePlaygroundSection({ onJumpToContact }: CreativePlaygroun
                     href={lightboxCard.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#D9F959] text-[#05123D] text-xs font-semibold hover:bg-white whitespace-nowrap shrink-0"
+                    className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white dark:text-[#160F0C] text-xs font-semibold whitespace-nowrap shrink-0 transition-colors"
                   >
                     <span>Visit URL</span>
                     <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
@@ -504,18 +506,20 @@ export function CreativePlaygroundSection({ onJumpToContact }: CreativePlaygroun
                     type="button"
                     onClick={() => setLightboxCard(null)}
                     aria-label="Close screenshot preview"
-                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white cursor-pointer"
+                    className="w-8 h-8 rounded-full bg-[var(--surface)] border border-[var(--hairline)] hover:border-[var(--accent)] flex items-center justify-center text-[var(--primary)] cursor-pointer transition-colors"
                   >
                     <X className="w-4 h-4" />
                   </button>
                 </div>
               </div>
-              <img
-                src={lightboxCard.image}
-                alt={lightboxCard.title}
-                referrerPolicy="no-referrer"
-                className="w-full max-h-[75vh] object-contain bg-[#040B24]"
-              />
+              <div className="bg-[#120D0B]">
+                <img
+                  src={lightboxCard.image}
+                  alt={lightboxCard.title}
+                  referrerPolicy="no-referrer"
+                  className="w-full max-h-[75vh] object-contain"
+                />
+              </div>
             </motion.div>
           </motion.div>
         )}

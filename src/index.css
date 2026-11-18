@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
@@ -7,12 +8,47 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
+/* Contribo-inspired warm parchment & copper dual-theme system */
+:root {
+  --base: #faf8f5;
+  --surface: #ffffff;
+  --surface-raised: #f3efea;
+  --hairline: #e6dfd5;
+  --primary: #2b1b15;
+  --secondary: #5a4d46;
+  --muted: #93857d;
+  --accent: #c67848;
+  --accent-hover: #b06538;
+  --accent-soft: rgba(198, 120, 72, 0.12);
+  --success: #5e9e6d;
+  --warning: #c88d3a;
+  --error: #c96a6a;
+  color-scheme: light;
+}
+
+.dark {
+  --base: #160f0c;
+  --surface: #1e1612;
+  --surface-raised: #291e1a;
+  --hairline: #382a24;
+  --primary: #fbf9f6;
+  --secondary: #a08c83;
+  --muted: #6c5c54;
+  --accent: #e59569;
+  --accent-hover: #f0a780;
+  --accent-soft: rgba(229, 149, 105, 0.14);
+  --success: #5e9e6d;
+  --warning: #c88d3a;
+  --error: #c96a6a;
+  color-scheme: dark;
+}
+
 @layer base {
   html {
     font-family: var(--font-sans);
     scroll-behavior: smooth;
-    background-color: #ffffff;
-    color: #151413;
+    background-color: var(--base);
+    color: var(--primary);
   }
 
   h1, h2, h3, h4 {
@@ -20,57 +56,61 @@
   }
 }
 
-/* Brutalist halftone dot texture for the editorial hero wordmark */
-.halftone-dots {
-  background-image: radial-gradient(circle, currentColor 1.25px, transparent 1.35px);
-  background-size: 5px 5px;
+/* Signature Contribo soft radial copper hero aura */
+.hero-radial {
+  background-color: var(--base);
+  background-image: radial-gradient(circle at 85% 30%, rgba(198, 120, 72, 0.085), transparent 55%);
 }
 
-/* Fluted ribbed glass texture — Night mode for Creative Playground */
-.fluted-backdrop {
-  background-color: #09090b;
+.dark .hero-radial {
+  background-color: var(--base);
+  background-image: radial-gradient(circle at 85% 30%, rgba(229, 149, 105, 0.075), transparent 55%);
+}
+
+/* Fine architectural drafting grid for Creative Playground & interactive studio canvases */
+.contribo-grid {
+  background-color: var(--base);
+  background-image:
+    radial-gradient(circle at 50% 18%, rgba(198, 120, 72, 0.10) 0%, transparent 62%),
+    linear-gradient(to right, rgba(43, 27, 21, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(43, 27, 21, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 28px 28px, 28px 28px;
+}
+
+.dark .contribo-grid {
+  background-color: var(--base);
+  background-image:
+    radial-gradient(circle at 50% 18%, rgba(229, 149, 105, 0.10) 0%, transparent 62%),
+    linear-gradient(to right, rgba(251, 249, 246, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(251, 249, 246, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 28px 28px, 28px 28px;
+}
+
+/* Tactile ribbed studio frame for bottom interactive launcher */
+.fluted-contribo {
+  background-color: #ebe4db;
   background-image:
     repeating-linear-gradient(
       115deg,
-      rgba(255, 255, 255, 0.08) 0px,
-      rgba(255, 255, 255, 0.015) 6px,
-      rgba(0, 0, 0, 0.92) 12px,
-      rgba(255, 255, 255, 0.05) 18px
+      rgba(255, 255, 255, 0.6) 0px,
+      rgba(255, 255, 255, 0.18) 6px,
+      rgba(198, 120, 72, 0.12) 12px,
+      rgba(255, 255, 255, 0.45) 18px
     ),
-    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.14), rgba(0, 0, 0, 0.96) 72%);
+    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.8), rgba(235, 228, 219, 0.96) 75%);
 }
 
-/* Fluted ribbed glass texture — Day mode for Creative Playground */
-.fluted-backdrop-day {
-  background-color: #eae7e0;
+.dark .fluted-contribo {
+  background-color: #1c1410;
   background-image:
     repeating-linear-gradient(
       115deg,
-      rgba(255, 255, 255, 0.65) 0px,
-      rgba(255, 255, 255, 0.2) 6px,
-      rgba(205, 200, 190, 0.45) 12px,
-      rgba(255, 255, 255, 0.5) 18px
+      rgba(229, 149, 105, 0.08) 0px,
+      rgba(229, 149, 105, 0.015) 6px,
+      rgba(15, 9, 7, 0.9) 12px,
+      rgba(251, 249, 246, 0.04) 18px
     ),
-    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.85), rgba(226, 222, 214, 0.95) 75%);
-}
-
-/* Navy blueprint micro-grid texture inspired by modern creator showcases */
-.playground-grid-night {
-  background-color: #061547;
-  background-image:
-    radial-gradient(circle at 50% 42%, rgba(28, 72, 184, 0.42) 0%, rgba(6, 21, 71, 0.94) 68%, #040e34 100%),
-    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-  background-size: 100% 100%, 22px 22px, 22px 22px;
-}
-
-.playground-grid-day {
-  background-color: #f7f4ed;
-  background-image:
-    radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.78) 0%, rgba(244, 240, 231, 0.96) 72%),
-    linear-gradient(to right, rgba(21, 20, 19, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(21, 20, 19, 0.04) 1px, transparent 1px);
-  background-size: 100% 100%, 22px 22px, 22px 22px;
+    radial-gradient(circle at 50% 45%, rgba(229, 149, 105, 0.12), rgba(22, 15, 12, 0.96) 72%);
 }
 
 @keyframes marquee-scroll-left {

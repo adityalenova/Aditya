@@ -12,8 +12,10 @@ import { OutOfFrameSection } from './components/OutOfFrameSection';
 import { RecommendationsSection } from './components/RecommendationsSection';
 import { FooterContactSection } from './components/FooterContactSection';
 import { CaseStudyPage } from './components/CaseStudyPage';
-import { ResumeModal } from './components/ResumeModal';
+import { ResumePdfPage } from './components/ResumePdfPage';
 import { CaseStudyProject, EXTRA_CASE_STUDIES, SELECTED_WORK } from './data/portfolioData';
+
+export type ThemeMode = 'light' | 'dark';
 
 function findCaseStudyBySlug(slug: string | null): CaseStudyProject | null {
   if (!slug) return null;
@@ -31,17 +33,62 @@ function findCaseStudyBySlug(slug: string | null): CaseStudyProject | null {
 }
 
 export default function App() {
+  const [theme, setTheme] = useState<ThemeMode>(() => {
+    if (typeof window === 'undefined') return 'dark';
+    try {
+      return window.localStorage.getItem('portfolio-theme') === 'light' ? 'light' : 'dark';
+    } catch {
+      return 'dark';
+    }
+  });
+
   const [activeSection, setActiveSection] = useState<NavSection>('work');
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudyProject | null>(() => {
     if (typeof window === 'undefined') return null;
     const params = new URLSearchParams(window.location.search);
     return findCaseStudyBySlug(params.get('case'));
   });
-  const [resumeOpen, setResumeOpen] = useState(false);
+  const [resumePdfOpen, setResumePdfOpen] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    const params = new URLSearchParams(window.location.search);
+    return params.get('resume') === 'pdf';
+  });
+
+  useEffect(() => {
+    const isDark = theme === 'dark';
+    document.documentElement.classList.toggle('dark', isDark);
+    try {
+      window.localStorage.setItem('portfolio-theme', theme);
+    } catch {
+      // ignore storage failure
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
+  const openResumePdf = () => {
+    setSelectedCaseStudy(null);
+    setResumePdfOpen(true);
+    const url = new URL(window.location.href);
+    url.searchParams.delete('case');
+    url.searchParams.set('resume', 'pdf');
+    window.history.pushState({ resumePdf: true }, '', url.toString());
+  };
+
+  const closeResumePdf = () => {
+    setResumePdfOpen(false);
+    const url = new URL(window.location.href);
+    url.searchParams.delete('resume');
+    window.history.pushState({}, '', url.toString());
+  };
 
   const openCaseStudyPage = (project: CaseStudyProject) => {
+    setResumePdfOpen(false);
     setSelectedCaseStudy(project);
     const url = new URL(window.location.href);
+    url.searchParams.delete('resume');
     url.searchParams.set('case', project.slug);
     window.history.pushState({ caseSlug: project.slug }, '', url.toString());
   };
@@ -59,6 +106,7 @@ export default function App() {
   useEffect(() => {
     const onPopState = () => {
       const params = new URLSearchParams(window.location.search);
+      setResumePdfOpen(params.get('resume') === 'pdf');
       setSelectedCaseStudy(findCaseStudyBySlug(params.get('case')));
     };
     window.addEventListener('popstate', onPopState);
@@ -78,7 +126,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (selectedCaseStudy) return;
+    if (selectedCaseStudy || resumePdfOpen) return;
     const sectionIds: NavSection[] = ['work', 'about', 'playground', 'experience', 'contact'];
     const observers: IntersectionObserver[] = [];
 
@@ -102,7 +150,11 @@ export default function App() {
     return () => {
       observers.forEach((o) => o.disconnect());
     };
-  }, [selectedCaseStudy]);
+  }, [selectedCaseStudy, resumePdfOpen]);
+
+  if (resumePdfOpen) {
+    return <ResumePdfPage onBack={closeResumePdf} />;
+  }
 
   if (selectedCaseStudy) {
     return (
@@ -110,16 +162,20 @@ export default function App() {
         project={selectedCaseStudy}
         onBack={closeCaseStudyPage}
         onNavigateCaseStudy={openCaseStudyPage}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
     );
   }
 
   return (
-    <div className="min-h-screen bg-white text-[#151413] relative">
+    <div className="min-h-screen bg-[var(--base)] text-[var(--primary)] relative transition-colors duration-200">
       <Navbar
         activeSection={activeSection}
         onNavigate={handleNavigate}
-        onOpenResume={() => setResumeOpen(true)}
+        onOpenResume={openResumePdf}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
 
       <main>
@@ -131,7 +187,11 @@ export default function App() {
         <TechStackSection />
         <SelectedWorkSection onSelectCaseStudy={openCaseStudyPage} />
         <BuildingWithAISection onSelectCaseStudy={openCaseStudyPage} />
-        <CreativePlaygroundSection onJumpToContact={() => handleNavigate('contact')} />
+        <CreativePlaygroundSection
+          onJumpToContact={() => handleNavigate('contact')}
+          theme={theme}
+          onToggleTheme={toggleTheme}
+        />
         <FolderShowcaseSection onSelectCaseStudy={openCaseStudyPage} />
         <ExperienceCertificatesSection />
         <OutOfFrameSection />
@@ -139,13 +199,8 @@ export default function App() {
       </main>
 
       <FooterContactSection
-        onOpenResume={() => setResumeOpen(true)}
+        onOpenResume={openResumePdf}
         onNavigate={handleNavigate}
-      />
-
-      <ResumeModal
-        open={resumeOpen}
-        onClose={() => setResumeOpen(false)}
       />
     </div>
   );

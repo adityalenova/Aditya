@@ -4,7 +4,6 @@ import hobbySneakerImg from '../assets/images/hobby_sneaker_stack_1794836494684.
 import hobbyMusicImg from '../assets/images/hobby_music_headphones_1794836494712.jpg';
 import hobbyVideoImg from '../assets/images/hobby_video_editing_1794836495710.jpg';
 import hobbyCreatorImg from '../assets/images/hobby_creator_studio_1794836495154.jpg';
-import footerStudioImg from '../assets/images/footer_aditya_studio_1794831924681.jpg';
 import avatarSubhranshu from '../assets/images/avatar_subhranshu_dash_1794835060566.jpg';
 import avatarKarthikeya from '../assets/images/avatar_karthikeya_varma_1794835061948.jpg';
 import avatarRohan from '../assets/images/avatar_rohan_kulkarni_1794835062875.jpg';
@@ -117,7 +116,7 @@ export interface RecommendationItem {
 export const HERO_CHARACTER_URL = heroCharacterImg;
 export const HERO_FULLBODY_URL = heroFullBodyImg;
 export const HERO_AVATAR_URL = heroCatAvatarImg;
-export const FOOTER_MEADOW_URL = footerStudioImg;
+export const FOOTER_MEADOW_URL = '/assets/collected/footer-aditya-nobg.png';
 
 export const OUT_OF_FRAME_ITEMS = [
   {
@@ -181,7 +180,7 @@ export const TECH_STACK: TechTool[] = [
 
 export const HERO_PROOF_STATS = [
   { value: '10+', label: 'Live AI & Full-Stack Apps Shipped' },
-  { value: '40,017', label: 'Open Issues Indexed in cyrus.ai' },
+  { value: '500+', label: 'Connections on LinkedIn' },
   { value: '1st Place', label: 'Agentic Arena · CONVERGENCE 2k26' },
   { value: '1,035+', label: 'GitHub Developer Followers' },
 ];
@@ -319,7 +318,7 @@ export const SELECTED_WORK: CaseStudyProject[] = [
     headline: 'Planning multi-stop Indian EV highway routes with live charger specs & GPS rerouting',
     summary:
       'EV, fuel, and solar trip planner for India featuring chargers, fuel stations, and highway food stops along the route, AI range risk scoring, and in-app GPS navigation with voice and live rerouting.',
-    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.47.09_f075f2ed.png',
+    image: '/assets/collected/live-static-cropped.png',
     imageAlt: 'Official live hero screenshot of Static EV and solar route planner featuring vehicle telemetry',
     accentBackdrop: 'from-[#166534] to-[#052E16]',
     liveUrl: 'https://static-chargepoint.lovable.app',
@@ -472,7 +471,7 @@ export const AI_BUILD_PROJECTS: AIBuildProject[] = [
       'In-app GPS navigation featuring voice turn-by-turn & live rerouting',
       'Includes personal EV garage & solar panel energy storage calculator',
     ],
-    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.47.09_f075f2ed.png',
+    image: '/assets/collected/live-static-cropped.png',
     imageAlt: 'Official live screenshot of Static EV and solar route planner featuring vehicle telemetry',
     previewType: 'static',
     logoUrl: '/assets/collected/logos/app-static.png',
@@ -497,8 +496,8 @@ export const AI_BUILD_PROJECTS: AIBuildProject[] = [
     ],
     image: '/assets/aistudio/Screenshot_2026-11-16_at_20.46.41_981fd069.png',
     imageAlt: 'Official live screenshot of BeyondHuman adaptive health and workout AI application',
-    logoUrl: '/assets/collected/logos/app-beyondhuman.png',
-    logoBg: 'bg-[#14171F]',
+    logoUrl: '/assets/collected/logos/app-beyondhuman.svg',
+    logoBg: 'bg-[#0D1117]',
     iconBg: 'bg-[#2563EB]',
     iconType: 'health',
     liveUrl: 'https://beyondhuman-healthai.lovable.app/',
@@ -612,7 +611,7 @@ export const PLAYGROUND_CARDS: PlaygroundCard[] = [
     title: 'Static',
     subtitle: 'EV & Solar Route AI',
     category: 'AI Products',
-    image: '/assets/aistudio/Screenshot_2026-11-16_at_20.47.09_f075f2ed.png',
+    image: '/assets/collected/live-static-cropped.png',
     url: 'https://static-chargepoint.lovable.app',
   },
   {
@@ -860,7 +859,7 @@ export const CERTIFICATES: CertificateItem[] = [
     title: 'Certificate of Achievement in Convergence 2k26: Agentic Arena (1st Place)',
     issuer: 'Krithomedh VNRVJIET · 27th National Technical Symposium',
     issuerShort: '1st',
-    issuerAccent: 'bg-[#7A1C24] text-white',
+    issuerAccent: 'bg-[#C67848] text-white',
     issuerLogo: '/assets/collected/logos/logo-krithomedh.png',
     date: 'Sep 2026',
     sortOrder: 8,
@@ -950,7 +949,7 @@ export const RECOMMENDATIONS: RecommendationItem[] = [
     org: 'VNRVJIET',
     initials: 'KV',
     avatar: avatarKarthikeya,
-    accentBg: 'bg-[#7A1C24]',
+    accentBg: 'bg-[#C67848]',
     contextLabel: 'Teamed up at CONVERGENCE 2k26 · Agentic Arena',
     segments: [
       { text: 'I would strongly recommend Aditya for any AI engineering team. ' },
